@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>☠ ZOMBIE GRIND CALCULATOR ☠</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blood: #8b0000;
+    --blood-bright: #cc0000;
+    --rot: #2a3d1c;
+    --rot-mid: #3d5a27;
+    --rot-bright: #5a8a30;
+    --xp: #c8a020;
+    --xp-dim: #8a6a10;
+    --xp-bright: #f0c030;
+    --wise: #4a90c8;
+    --wise-bright: #70b8f8;
+    --bone: #c8b89a;
+    --bone-dim: #7a6a55;
+    --dark: #0a0c08;
+    --panel: #111409;
+    --glow: 0 0 12px #5a8a30, 0 0 30px #3d5a2744;
+    --red-glow: 0 0 10px #cc0000, 0 0 25px #8b000055;
+    --xp-glow: 0 0 10px #c8a020, 0 0 22px #c8a02044;
+    --wise-glow: 0 0 10px #4a90c8, 0 0 22px #4a90c844;
+    --mono: 'Share Tech Mono', monospace;
+    --horror: 'Creepster', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--dark);
+    background-image:
+      radial-gradient(ellipse at 20% 50%, #1a2a0e22 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, #3d000022 0%, transparent 55%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='none'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%233d5a2712'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%233d5a2708' stroke-width='0.5'/%3E%3C/svg%3E");
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px 60px;
+    font-family: var(--mono);
+    color: var(--bone);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, transparent, var(--blood-bright), var(--blood), var(--blood-bright), transparent);
+    box-shadow: var(--red-glow);
+    z-index: 100;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, #00000018 2px, #00000018 4px);
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── Title ── */
+  .title-block { text-align: center; margin-bottom: 32px; animation: fadeIn 1s ease; }
+  .skull-row { font-size: 2rem; letter-spacing: 0.5rem; opacity: 0.5; margin-bottom: -8px; animation: pulse 3s ease-in-out infinite; }
+  h1 {
+    font-family: var(--horror);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    color: var(--blood-bright);
+    text-shadow: 0 0 20px #cc000088, 0 3px 0 #3a0000, 3px 3px 0 #1a0000;
+    letter-spacing: 0.1em; line-height: 1; margin-bottom: 6px;
+  }
+  .subtitle { font-size: 0.72rem; color: var(--bone-dim); letter-spacing: 0.35em; text-transform: uppercase; }
+
+  /* ── Grid ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%; max-width: 940px;
+    animation: slideUp 0.8s ease 0.2s both;
+  }
+  @media (max-width: 650px) { .main-grid { grid-template-columns: 1fr; } }
+
+  /* ── Panel ── */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rot-mid);
+    border-radius: 4px;
+    padding: 22px 24px;
+    position: relative;
+    box-shadow: inset 0 0 40px #00000055, 0 4px 30px #00000088;
+  }
+  .panel::before {
+    content: '';
+    position: absolute; inset: 0; border-radius: 4px;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, var(--rot-bright)22, transparent 50%) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out; mask-composite: exclude;
+    pointer-events: none;
+  }
+  .panel.xp-panel       { border-color: var(--xp-dim); }
+  .panel.xp-panel::before { background: linear-gradient(135deg, var(--xp)22, transparent 50%) border-box; }
+  .panel.enchant-panel  { border-color: #4a90c855; }
+  .panel.enchant-panel::before { background: linear-gradient(135deg, var(--wise)22, transparent 50%) border-box; }
+  .panel.full-row { grid-column: 1 / -1; }
+
+  .panel-title {
+    font-family: var(--horror); font-size: 1.3rem;
+    color: var(--rot-bright); text-shadow: var(--glow);
+    letter-spacing: 0.08em; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-title.xp-title      { color: var(--xp-bright);   text-shadow: var(--xp-glow);   }
+  .panel-title.enchant-title { color: var(--wise-bright);  text-shadow: var(--wise-glow); }
+  .panel-title .icon { font-size: 1.1rem; }
+
+  /* ── Fields ── */
+  .field-group { display: flex; flex-direction: column; gap: 14px; }
+  .field-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  label {
+    display: flex; flex-direction: column; gap: 5px;
+    font-size: 0.7rem; color: var(--bone-dim);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  label .hint {
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    opacity: 0.55; text-transform: none; margin-top: -3px;
+  }
+
+  input[type="number"] {
+    background: #050704; border: 1px solid var(--rot-mid); border-radius: 3px;
+    color: var(--rot-bright); font-family: var(--mono); font-size: 1.05rem;
+    padding: 8px 12px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%; -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type="number"]:focus { border-color: var(--rot-bright); box-shadow: var(--glow); }
+  input.xp-input { color: var(--xp-bright); border-color: var(--xp-dim); }
+  input.xp-input:focus { border-color: var(--xp-bright); box-shadow: var(--xp-glow); }
+
+  /* ── Sliders ── */
+  .slider-group { display: flex; flex-direction: column; gap: 6px; }
+  .slider-row { display: flex; align-items: center; gap: 10px; }
+
+  input[type="range"] {
+    flex: 1; -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--rot-bright); border: 2px solid var(--dark);
+    box-shadow: var(--glow); cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--rot-bright); border: 2px solid var(--dark); cursor: pointer;
+  }
+  input[type="range"].wise-slider::-webkit-slider-thumb {
+    background: var(--wise-bright); box-shadow: var(--wise-glow);
+  }
+  input[type="range"].wise-slider::-moz-range-thumb { background: var(--wise-bright); }
+
+  .slider-val { font-size: 1rem; min-width: 2.2ch; text-align: right; font-family: var(--mono); }
+  .slider-val.greedy { color: var(--rot-bright); }
+  .slider-val.wise   { color: var(--wise-bright); }
+
+  .modifier-badge {
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    padding: 2px 8px; border-radius: 20px; display: inline-block;
+  }
+  .modifier-badge.greedy { background: var(--rot)88; color: var(--rot-bright); border: 1px solid var(--rot-mid); }
+  .modifier-badge.wise   { background: #4a90c822; color: var(--wise-bright); border: 1px solid #4a90c844; }
+
+  /* ── Stats ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .stat-box {
+    background: #050704; border: 1px solid var(--rot);
+    border-radius: 4px; padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .stat-box.xp-box   { border-color: var(--xp-dim)88; }
+  .stat-box.wise-box { border-color: #4a90c833; }
+
+  .stat-label { font-size: 0.58rem; color: var(--bone-dim); letter-spacing: 0.25em; text-transform: uppercase; }
+  .stat-value {
+    font-size: 1.25rem; color: var(--rot-bright); text-shadow: var(--glow);
+    font-family: var(--mono); transition: color 0.3s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .stat-value.blood { color: var(--blood-bright); text-shadow: var(--red-glow); }
+  .stat-value.bone  { color: var(--bone);         text-shadow: none; }
+  .stat-value.xp    { color: var(--xp-bright);    text-shadow: var(--xp-glow); }
+  .stat-value.wise  { color: var(--wise-bright);   text-shadow: var(--wise-glow); }
+  .stat-sub { font-size: 0.58rem; color: var(--bone-dim); opacity: 0.5; margin-top: 1px; min-height: 0.9rem; }
+
+  /* ── Grind Button ── */
+  .grind-panel { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .grind-btn {
+    font-family: var(--horror); font-size: 2.2rem; letter-spacing: 0.12em;
+    color: var(--dark);
+    background: linear-gradient(160deg, var(--blood-bright), var(--blood));
+    border: none; border-radius: 5px; padding: 16px 60px; cursor: pointer;
+    box-shadow: 0 4px 0 #3a0000, 0 6px 20px #cc000044;
+    transition: transform 0.08s, box-shadow 0.08s;
+    user-select: none; text-shadow: 0 1px 3px #3a000077;
+    width: 100%; max-width: 460px;
+  }
+  .grind-btn:hover {
+    background: linear-gradient(160deg, #ff1111, var(--blood-bright));
+    box-shadow: 0 4px 0 #3a0000, 0 8px 30px #cc000077;
+  }
+  .grind-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #3a0000, 0 3px 12px #cc000044; }
+  .grind-btn .btn-sub {
+    display: block; font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.25em; color: #ff888877; margin-top: -4px;
+  }
+  .tip { font-size: 0.62rem; color: var(--bone-dim); letter-spacing: 0.08em; opacity: 0.4; text-align: center; }
+
+  /* ── Log ── */
+  .log-panel { max-height: 340px; overflow: hidden; display: flex; flex-direction: column; }
+  .log-inner {
+    overflow-y: auto; flex: 1;
+    scrollbar-width: thin; scrollbar-color: var(--rot-mid) #050704;
+  }
+  .log-inner::-webkit-scrollbar { width: 6px; }
+  .log-inner::-webkit-scrollbar-track { background: #050704; }
+  .log-inner::-webkit-scrollbar-thumb { background: var(--rot-mid); border-radius: 3px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+  thead tr { background: var(--rot); position: sticky; top: 0; z-index: 2; }
+  th {
+    padding: 8px 9px; text-align: left;
+    font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rot-bright); font-weight: normal; white-space: nowrap;
+  }
+  th.xp-col  { color: var(--xp-bright); }
+  th.last    { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid var(--rot)55; transition: background 0.15s; animation: rowAppear 0.4s ease both; }
+  tbody tr:hover { background: var(--rot)22; }
+
+  td { padding: 7px 9px; color: var(--bone-dim); font-family: var(--mono); white-space: nowrap; }
+  td.c-num      { color: var(--bone-dim); }
+  td.c-spawners { color: var(--blood-bright); font-weight: bold; }
+  td.c-time     { color: var(--rot-bright); }
+  td.c-income   { color: var(--rot-bright); font-size: 0.7rem; }
+  td.c-xp       { color: var(--xp-bright); font-size: 0.7rem; }
+  td.c-total    { color: var(--bone); text-align: right; }
+
+  .empty-log {
+    text-align: center; padding: 30px;
+    color: var(--bone-dim); font-size: 0.75rem; letter-spacing: 0.2em; opacity: 0.5;
+  }
+
+  .reset-btn {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--bone-dim); background: transparent;
+    border: 1px solid var(--bone-dim)44; border-radius: 3px;
+    padding: 7px 18px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--blood); color: var(--blood-bright); }
+
+  /* ── Animations ── */
+  @keyframes fadeIn  { from { opacity:0; transform: translateY(-12px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity:0; transform: translateY(20px);  } to { opacity:1; transform: translateY(0); } }
+  @keyframes pulse   { 0%,100% { opacity:.35; } 50% { opacity:.65; } }
+  @keyframes rowAppear { from { opacity:0; transform:translateX(-8px); background:var(--rot)44; } to { opacity:1; transform:translateX(0); background:transparent; } }
+  @keyframes blip    { 0%{filter:brightness(1);} 45%{filter:brightness(2.2);} 100%{filter:brightness(1);} }
+  @keyframes blipXp  { 0%{filter:brightness(1);} 45%{filter:brightness(2.5) sepia(1) hue-rotate(10deg);} 100%{filter:brightness(1);} }
+  .blip   { animation: blip   0.45s ease; }
+  .blipXp { animation: blipXp 0.45s ease; }
+</style>
+</head>
+<body>
+
+<div class="title-block">
+  <div class="skull-row">💀 ☠ 💀 ☠ 💀</div>
+  <h1>ZOMBIE GRIND</h1>
+  <div class="subtitle">Spawner ROI Calculator &mdash; v2.0</div>
+</div>
+
+<div class="main-grid">
+
+  <!-- ══ Configuration ══════════════════════════════════ -->
+  <div class="panel">
+    <div class="panel-title"><span class="icon">⚙</span> Configuration</div>
+    <div class="field-group">
+      <div class="field-row">
+        <label>
+          Zombie Spawners
+          <input type="number" id="spawnerCount" min="1" value="1" step="1">
+        </label>
+        <label>
+          Cost per Spawner ($)
+          <input type="number" id="spawnerCost" min="1" value="5000000" step="100000">
+        </label>
+      </div>
+      <label>
+        Zombie Drops ($)
+        <span class="hint">Base coin drop per zombie kill</span>
+        <input type="number" id="zombieDrops" min="0.01" value="35.00" step="0.01">
+      </label>
+    </div>
+  </div>
+
+  <!-- ══ Enchantments ════════════════════════════════════ -->
+  <div class="panel enchant-panel">
+    <div class="panel-title enchant-title"><span class="icon">✦</span> Enchantments</div>
+    <div class="field-group">
+
+      <label>
+        Greedy Mobs
+        <span class="hint">+2% coin drops per level &bull; range 0–25</span>
+      </label>
+      <div class="slider-group">
+        <div class="slider-row">
+          <input type="range" id="greedySlider" class="greedy-slider" min="0" max="25" value="0" step="1">
+          <span class="slider-val greedy" id="greedyVal">0</span>
+        </div>
+        <span class="modifier-badge greedy" id="greedyBadge">+0% to drops</span>
+      </div>
+
+      <label style="margin-top:6px;">
+        Wise
+        <span class="hint">+10% XP per level &bull; range 0–15</span>
+      </label>
+      <div class="slider-group">
+        <div class="slider-row">
+          <input type="range" id="wiseSlider" class="wise-slider" min="0" max="15" value="0" step="1">
+          <span class="slider-val wise" id="wiseVal">0</span>
+        </div>
+        <span class="modifier-badge wise" id="wiseBadge">+0% to XP</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ XP Settings ═════════════════════════════════════ -->
+  <div class="panel xp-panel full-row">
+    <div class="panel-title xp-title"><span class="icon">✦</span> XP Settings</div>
+    <div class="field-row">
+      <label>
+        Base XP per Zombie
+        <span class="hint">Fixed at 5 XP per kill</span>
+        <input type="number" id="xpPerZombie" value="5" class="xp-input"
+               readonly style="opacity:0.5; cursor:not-allowed;">
+      </label>
+      <label>
+        XP Value ($ per XP)
+        <span class="hint">Converts XP earnings into coins</span>
+        <input type="number" id="xpValue" value="10" min="0.01" step="0.01" class="xp-input">
+      </label>
+    </div>
+  </div>
+
+  <!-- ══ Live Stats ══════════════════════════════════════ -->
+  <div class="panel full-row">
+    <div class="panel-title"><span class="icon">📊</span> Live Stats</div>
+    <div class="stats-grid">
+
+      <div class="stat-box">
+        <div class="stat-label">Spawners</div>
+        <div class="stat-value blood" id="statSpawners">1</div>
+        <div class="stat-sub"></div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Effective Drop $</div>
+        <div class="stat-value" id="statEffDrop">—</div>
+        <div class="stat-sub" id="statDropSub"></div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Coin $/min</div>
+        <div class="stat-value" id="statPerMin">—</div>
+        <div class="stat-sub">drops only</div>
+      </div>
+
+      <div class="stat-box xp-box">
+        <div class="stat-label">Effective XP/kill</div>
+        <div class="stat-value xp" id="statEffXp">—</div>
+        <div class="stat-sub" id="statXpSub"></div>
+      </div>
+
+      <div class="stat-box xp-box">
+        <div class="stat-label">XP / min</div>
+        <div class="stat-value xp" id="statXpMin">—</div>
+        <div class="stat-sub"></div>
+      </div>
+
+      <div class="stat-box xp-box">
+        <div class="stat-label">XP $ / min</div>
+        <div class="stat-value xp" id="statXpDollarMin">—</div>
+        <div class="stat-sub">@ XP Value rate</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Total $/min</div>
+        <div class="stat-value bone" id="statTotalPerMin">—</div>
+        <div class="stat-sub">coins + XP value</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Next Grind</div>
+        <div class="stat-value bone" id="statNextGrind">—</div>
+        <div class="stat-sub" id="statTotal" style="font-size:0.62rem; color:var(--bone-dim); opacity:0.7;">Total: 00:00:00:00</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ Grind Button ════════════════════════════════════ -->
+  <div class="panel full-row grind-panel">
+    <button class="grind-btn" onclick="doGrind()">
+      ☠ GRIND ☠
+      <span class="btn-sub">CALCULATE NEXT SPAWNER</span>
+    </button>
+    <div class="tip">1 zombie / 30s per spawner &bull; Greedy Mobs boosts coin drops &bull; Wise boosts XP &bull; XP Value converts XP to coins</div>
+  </div>
+
+  <!-- ══ Grind Log ═══════════════════════════════════════ -->
+  <div class="panel full-row log-panel">
+    <div class="panel-title" style="justify-content: space-between;">
+      <span><span class="icon">📜</span> Grind Log</span>
+      <button class="reset-btn" onclick="resetLog()">☠ RESET</button>
+    </div>
+    <div class="log-inner">
+      <div class="empty-log" id="emptyMsg">— No grinds yet. Press GRIND to begin. —</div>
+      <table id="logTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Spawners</th>
+            <th>Grind Time</th>
+            <th>Coin $/min</th>
+            <th class="xp-col">XP/min</th>
+            <th class="xp-col">XP $/min</th>
+            <th>Total $/min</th>
+            <th class="last">Cumulative Time</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── State ───────────────────────────────────────────────
+  let totalSeconds   = 0;
+  let grindCount     = 0;
+  let lockedSpawners = null;
+
+  // ── Read all inputs ─────────────────────────────────────
+  function getInputs() {
+    const spawners = Math.max(1,    parseInt(document.getElementById('spawnerCount').value)  || 1);
+    const cost     = Math.max(1,    parseFloat(document.getElementById('spawnerCost').value)  || 5000000);
+    const baseDrop = Math.max(0.01, parseFloat(document.getElementById('zombieDrops').value)  || 35);
+    const xpValue  = Math.max(0.01, parseFloat(document.getElementById('xpValue').value)      || 10);
+    const greedy   = Math.max(0, Math.min(25, parseInt(document.getElementById('greedySlider').value) || 0));
+    const wise     = Math.max(0, Math.min(15, parseInt(document.getElementById('wiseSlider').value)   || 0));
+
+    const greedyMult = 1 + (greedy * 0.02);   // +2% per level
+    const wiseMult   = 1 + (wise   * 0.10);   // +10% per level
+
+    const effDrop = baseDrop * greedyMult;     // effective coin drop per kill
+    const baseXp  = 5;                         // locked: 5 XP per zombie
+    const effXp   = baseXp * wiseMult;         // effective XP per kill
+
+    return { spawners, cost, baseDrop, effDrop, baseXp, effXp, xpValue, greedy, wise, greedyMult, wiseMult };
+  }
+
+  // ── Per-second earnings ─────────────────────────────────
+  // 1 zombie per 30 s per spawner
+  function perSecond(n, effDrop, effXp, xpValue) {
+    const zombiesPerSec = n / 30;
+    const coinPerSec    = zombiesPerSec * effDrop;
+    const xpPerSec      = zombiesPerSec * effXp;
+    const xpDollarSec   = xpPerSec * xpValue;
+    const totalPerSec   = coinPerSec + xpDollarSec;
+    return { coinPerSec, xpPerSec, xpDollarSec, totalPerSec };
+  }
+
+  // ── Formatting ──────────────────────────────────────────
+  function formatTime(secs) {
+    secs = Math.round(secs);
+    const d = Math.floor(secs / 86400);
+    const h = Math.floor((secs % 86400) / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    return [d, h, m, s].map(n => String(n).padStart(2,'0')).join(':');
+  }
+
+  function fmtMoney(n) {
+    if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+    if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+    if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+    return '$' + n.toFixed(2);
+  }
+
+  function fmtXp(n) {
+    if (n >= 1e6) return (n/1e6).toFixed(2) + 'M xp';
+    if (n >= 1e3) return (n/1e3).toFixed(1) + 'K xp';
+    return n.toFixed(1) + ' xp';
+  }
+
+  // ── Slider visuals ──────────────────────────────────────
+  function updateSliders() {
+    const greedy = parseInt(document.getElementById('greedySlider').value) || 0;
+    const wise   = parseInt(document.getElementById('wiseSlider').value)   || 0;
+
+    document.getElementById('greedyVal').textContent   = greedy;
+    document.getElementById('wiseVal').textContent     = wise;
+    document.getElementById('greedyBadge').textContent = `+${greedy * 2}% to drops`;
+    document.getElementById('wiseBadge').textContent   = `+${wise * 10}% to XP`;
+
+    const gp = (greedy / 25 * 100).toFixed(1) + '%';
+    const wp = (wise   / 15 * 100).toFixed(1) + '%';
+    document.getElementById('greedySlider').style.background =
+      `linear-gradient(90deg, var(--rot-mid) ${gp}, var(--rot) ${gp})`;
+    document.getElementById('wiseSlider').style.background =
+      `linear-gradient(90deg, var(--wise) ${wp}, var(--rot) ${wp})`;
+  }
+
+  // ── Live Stats update ───────────────────────────────────
+  function updateLiveStats() {
+    updateSliders();
+    const { spawners, cost, baseDrop, effDrop, effXp, xpValue, greedy, wise } = getInputs();
+    const { coinPerSec, xpPerSec, xpDollarSec, totalPerSec } = perSecond(spawners, effDrop, effXp, xpValue);
+
+    document.getElementById('statSpawners').textContent    = spawners.toLocaleString();
+    document.getElementById('statEffDrop').textContent     = fmtMoney(effDrop);
+    document.getElementById('statDropSub').textContent     = greedy > 0
+      ? `base ${fmtMoney(baseDrop)} ×${(1+greedy*0.02).toFixed(2)}`
+      : 'no greedy bonus';
+    document.getElementById('statEffXp').textContent       = effXp.toFixed(2) + ' xp';
+    document.getElementById('statXpSub').textContent       = wise > 0
+      ? `base 5 ×${(1+wise*0.10).toFixed(2)} (Wise ${wise})`
+      : 'no wise bonus';
+    document.getElementById('statPerMin').textContent      = fmtMoney(coinPerSec * 60);
+    document.getElementById('statXpMin').textContent       = fmtXp(xpPerSec * 60);
+    document.getElementById('statXpDollarMin').textContent = fmtMoney(xpDollarSec * 60);
+    document.getElementById('statTotalPerMin').textContent = fmtMoney(totalPerSec * 60);
+    document.getElementById('statNextGrind').textContent   = formatTime(cost / totalPerSec);
+    document.getElementById('statTotal').textContent       = 'Total: ' + formatTime(totalSeconds);
+  }
+
+  // ── Grind ───────────────────────────────────────────────
+  function doGrind() {
+    const { spawners, cost, effDrop, effXp, xpValue } = getInputs();
+
+    if (grindCount === 0) lockedSpawners = spawners;
+    const cur = (lockedSpawners || spawners) + grindCount;
+
+    const { coinPerSec, xpPerSec, xpDollarSec, totalPerSec } = perSecond(cur, effDrop, effXp, xpValue);
+    const grindSecs = cost / totalPerSec;
+    totalSeconds += grindSecs;
+    grindCount++;
+
+    document.getElementById('spawnerCount').value = cur + 1;
+    updateLiveStats();
+
+    // Flash
+    ['statNextGrind','statTotalPerMin','statSpawners','statEffDrop'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('blip'); void el.offsetWidth; el.classList.add('blip');
+    });
+    ['statXpMin','statXpDollarMin','statEffXp'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('blipXp'); void el.offsetWidth; el.classList.add('blipXp');
+    });
+
+    addLogRow(grindCount, cur, grindSecs,
+      coinPerSec*60, xpPerSec*60, xpDollarSec*60, totalPerSec*60, totalSeconds);
+  }
+
+  // ── Add log row ─────────────────────────────────────────
+  function addLogRow(num, spawners, grindSecs, coinMin, xpMin, xpDollarMin, totalMin, cumul) {
+    document.getElementById('emptyMsg').style.display  = 'none';
+    document.getElementById('logTable').style.display  = 'table';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="c-num">${num}</td>
+      <td class="c-spawners">${spawners.toLocaleString()}</td>
+      <td class="c-time">${formatTime(grindSecs)}</td>
+      <td class="c-income">${fmtMoney(coinMin)}</td>
+      <td class="c-xp">${fmtXp(xpMin)}</td>
+      <td class="c-xp">${fmtMoney(xpDollarMin)}</td>
+      <td class="c-income">${fmtMoney(totalMin)}</td>
+      <td class="c-total">${formatTime(cumul)}</td>
+    `;
+    document.getElementById('logBody').prepend(tr);
+  }
+
+  // ── Reset ───────────────────────────────────────────────
+  function resetLog() {
+    totalSeconds = 0; grindCount = 0; lockedSpawners = null;
+    document.getElementById('logBody').innerHTML       = '';
+    document.getElementById('logTable').style.display  = 'none';
+    document.getElementById('emptyMsg').style.display  = 'block';
+    updateLiveStats();
+  }
+
+  // ── Wire inputs ─────────────────────────────────────────
+  ['spawnerCount','spawnerCost','zombieDrops','xpValue'].forEach(id =>
+    document.getElementById(id).addEventListener('input', updateLiveStats));
+  ['greedySlider','wiseSlider'].forEach(id =>
+    document.getElementById(id).addEventListener('input', updateLiveStats));
+
+  updateLiveStats();
+</script>
+</body>
+</html>

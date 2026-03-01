@@ -1,0 +1,1208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minecraft Names</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel2: #0c0f16;
+      --text: #e8e8e8;
+      --muted: #a8b0c0;
+      --border: rgba(255,255,255,0.08);
+      --btn: rgba(255,255,255,0.08);
+      --btnHover: rgba(255,255,255,0.14);
+      --ok: #7ee787;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 900px at 20% 0%, rgba(110, 168, 255, 0.10), transparent 60%),
+                  radial-gradient(1100px 900px at 80% 10%, rgba(126, 231, 135, 0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+    }
+    header {
+      padding: 28px 18px 10px 18px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 18px;
+      margin: 0 0 6px 0;
+      letter-spacing: 0.2px;
+      font-weight: 650;
+    }
+    p.sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px 34px 18px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .search {
+      width: 420px;
+      max-width: 100%;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 13px;
+    }
+    .pill {
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    thead th {
+      text-align: left;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    tbody td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 13px;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    td.idx {
+      width: 54px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    td.preview {
+      font-size: 16px;
+      line-height: 1.35;
+      background: rgba(255,255,255,0.01);
+    }
+    td.actions {
+      width: 240px;
+      white-space: nowrap;
+      text-align: right;
+    }
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--btn);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 120ms ease, transform 60ms ease;
+    }
+    .btn:hover { background: var(--btnHover); }
+    .btn:active { transform: translateY(1px); }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(20, 24, 36, 0.92);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      display: none;
+      gap: 8px;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+    }
+    @media (max-width: 900px) {
+      td.actions { width: auto; }
+      td.preview { width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Minecraft Names</h1>
+    <p class="sub">
+      Sorted by the human-readable name (formatting stripped). Raw text is hidden; use the copy buttons.
+      Preview is rendered <strong>bold by default</strong>.
+    </p>
+  </header>
+
+  <div class="wrap">
+    <div class="toolbar">
+      <input id="search" class="search" placeholder="Filter…" oninput="applyFilter()" />
+      <div class="pill"><span id="count"></span> entries</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:54px;">#</th>
+          <th>Preview (bold)</th>
+          <th style="text-align:right;">Copy</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        
+        <tr data-i="0">
+          <td class="idx">1</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">A</span><span style="color: #1A6F3D; font-weight: 700;">r</span><span style="color: #1E8449; font-weight: 700;">t</span><span style="color: #239B56; font-weight: 700;">e</span><span style="color: #27AE60; font-weight: 700;">m</span><span style="color: #43C380; font-weight: 700;">i</span><span style="color: #5FD1A0; font-weight: 700;">s</span><span style="color: #7DCEA0; font-weight: 700;">’ </span><span style="color: #5FAF6F; font-weight: 700;">B</span><span style="color: #6FCF7F; font-weight: 700;">i</span><span style="color: #7FBF7F; font-weight: 700;">t</span><span style="color: #8FD08F; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(0)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(0)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="1">
+          <td class="idx">2</td>
+          <td class="preview"><span style="color: #5C2B00; font-weight: 700;">A</span><span style="color: #663100; font-weight: 700;">u</span><span style="color: #703700; font-weight: 700;">t</span><span style="color: #7A3D00; font-weight: 700;">o</span><span style="color: #8B5A2B; font-weight: 700;">m</span><span style="color: #9C7C43; font-weight: 700;">a</span><span style="color: #B0905D; font-weight: 700;">t</span><span style="color: #C2A94D; font-weight: 700;">o</span><span style="color: #D99800; font-weight: 700;">n </span><span style="color: #C97C00; font-weight: 700;">H</span><span style="color: #D18A00; font-weight: 700;">e</span><span style="color: #D99800; font-weight: 700;">l</span><span style="color: #E1A600; font-weight: 700;">m</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(1)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(1)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="2">
+          <td class="idx">3</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">B</span><span style="color: #8B0000; font-weight: 700;">e</span><span style="color: #9E0A0A; font-weight: 700;">r</span><span style="color: #B01414; font-weight: 700;">s</span><span style="color: #C21E1E; font-weight: 700;">e</span><span style="color: #DC2626; font-weight: 700;">r</span><span style="color: #FF4500; font-weight: 700;">k</span><span style="color: #FF5A00; font-weight: 700;">e</span><span style="color: #FF6A00; font-weight: 700;">r</span><span style="color: #FF8C1E; font-weight: 700;">’</span><span style="color: #FFAE3F; font-weight: 700;">s </span><span style="color: #F59E0B; font-weight: 700;">H</span><span style="color: #FF4500; font-weight: 700;">a</span><span style="color: #DC2626; font-weight: 700;">u</span><span style="color: #C62828; font-weight: 700;">b</span><span style="color: #8B0000; font-weight: 700;">e</span><span style="color: #6E0000; font-weight: 700;">r</span><span style="color: #5C0000; font-weight: 700;">k</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(2)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(2)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="3">
+          <td class="idx">4</td>
+          <td class="preview"><span style="color: #DADADA; font-weight: 700;">B</span><span style="color: #D0D0D0; font-weight: 700;">l</span><span style="color: #C6C6C6; font-weight: 700;">a</span><span style="color: #BCBCBC; font-weight: 700;">d</span><span style="color: #B2B2B2; font-weight: 700;">e </span><span style="color: #A8A8A8; font-weight: 700;">o</span><span style="color: #9E9E9E; font-weight: 700;">f </span><span style="color: #B6B6B6; font-weight: 700;">t</span><span style="color: #CFCFCF; font-weight: 700;">h</span><span style="color: #E6E6E6; font-weight: 700;">e </span><span style="color: #FFFFFF; font-weight: 700;">W</span><span style="color: #EDEDED; font-weight: 700;">e</span><span style="color: #DADADA; font-weight: 700;">s</span><span style="color: #C8C8C8; font-weight: 700;">t</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(3)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(3)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="4">
+          <td class="idx">5</td>
+          <td class="preview"><span style="color: #343AAB; font-weight: 700;">B</span><span style="color: #3845B3; font-weight: 700;">o</span><span style="color: #3D4FBA; font-weight: 700;">o</span><span style="color: #415AC2; font-weight: 700;">t</span><span style="color: #3D4FBA; font-weight: 700;">s</span><span style="color: #3845B3; font-weight: 700;"> </span><span style="color: #343AAB; font-weight: 700;">o</span><span style="color: #343AAB; font-weight: 700;">f</span><span style="color: #3845B3; font-weight: 700;"> </span><span style="color: #3D4FBA; font-weight: 700;">P</span><span style="color: #415AC2; font-weight: 700;">r</span><span style="color: #3D4FBA; font-weight: 700;">o</span><span style="color: #3845B3; font-weight: 700;">t</span><span style="color: #343AAB; font-weight: 700;">e</span><span style="color: #343AAB; font-weight: 700;">c</span><span style="color: #3845B3; font-weight: 700;">t</span><span style="color: #3D4FBA; font-weight: 700;">i</span><span style="color: #415AC2; font-weight: 700;">o</span><span style="color: #3D4FBA; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(4)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(4)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="5">
+          <td class="idx">6</td>
+          <td class="preview"><span style="color: #4A2E1A; font-weight: 700;">b</span><span style="color: #6B3F1F; font-weight: 700;">o</span><span style="color: #8C5A2B; font-weight: 700;">t</span><span style="color: #AD7437; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(5)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(5)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="6">
+          <td class="idx">7</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">B</span><span style="color: #1A6F3D; font-weight: 700;">u</span><span style="color: #1E8449; font-weight: 700;">i</span><span style="color: #239B56; font-weight: 700;">l</span><span style="color: #27AE60; font-weight: 700;">d</span><span style="color: #43C380; font-weight: 700;">e</span><span style="color: #5FD1A0; font-weight: 700;">r</span><span style="color: #7DCEA0; font-weight: 700;">’</span><span style="color: #9FFFD0; font-weight: 700;">s </span><span style="color: #7DCEA0; font-weight: 700;">B</span><span style="color: #6FCF7F; font-weight: 700;">o</span><span style="color: #5FD1A0; font-weight: 700;">o</span><span style="color: #43C380; font-weight: 700;">t</span><span style="color: #27AE60; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(6)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(6)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="7">
+          <td class="idx">8</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">B</span><span style="color: #1A6F3D; font-weight: 700;">u</span><span style="color: #1E8449; font-weight: 700;">i</span><span style="color: #239B56; font-weight: 700;">l</span><span style="color: #27AE60; font-weight: 700;">d</span><span style="color: #43C380; font-weight: 700;">e</span><span style="color: #5FD1A0; font-weight: 700;">r</span><span style="color: #7DCEA0; font-weight: 700;">’</span><span style="color: #9FFFD0; font-weight: 700;">s </span><span style="color: #7DCEA0; font-weight: 700;">H</span><span style="color: #6FCF7F; font-weight: 700;">e</span><span style="color: #5FD1A0; font-weight: 700;">l</span><span style="color: #43C380; font-weight: 700;">m</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(7)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(7)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="8">
+          <td class="idx">9</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">B</span><span style="color: #1A6F3D; font-weight: 700;">u</span><span style="color: #1E8449; font-weight: 700;">i</span><span style="color: #239B56; font-weight: 700;">l</span><span style="color: #27AE60; font-weight: 700;">d</span><span style="color: #43C380; font-weight: 700;">e</span><span style="color: #5FD1A0; font-weight: 700;">r</span><span style="color: #7DCEA0; font-weight: 700;">’</span><span style="color: #9FFFD0; font-weight: 700;">s </span><span style="color: #7DCEA0; font-weight: 700;">P</span><span style="color: #6FCF7F; font-weight: 700;">a</span><span style="color: #5FD1A0; font-weight: 700;">n</span><span style="color: #43C380; font-weight: 700;">t</span><span style="color: #27AE60; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(8)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(8)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="9">
+          <td class="idx">10</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">B</span><span style="color: #1A6F3D; font-weight: 700;">u</span><span style="color: #1E8449; font-weight: 700;">i</span><span style="color: #239B56; font-weight: 700;">l</span><span style="color: #27AE60; font-weight: 700;">d</span><span style="color: #43C380; font-weight: 700;">e</span><span style="color: #5FD1A0; font-weight: 700;">r</span><span style="color: #7DCEA0; font-weight: 700;">’</span><span style="color: #9FFFD0; font-weight: 700;">s </span><span style="color: #7DCEA0; font-weight: 700;">R</span><span style="color: #6FCF7F; font-weight: 700;">o</span><span style="color: #5FD1A0; font-weight: 700;">b</span><span style="color: #43C380; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(9)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(9)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="10">
+          <td class="idx">11</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">c</span><span style="color: #8B0000; font-weight: 700;">h</span><span style="color: #9E0A0A; font-weight: 700;">c</span><span style="color: #B01414; font-weight: 700;">k</span><span style="color: #C21E1E; font-weight: 700;">n</span><span style="color: #DC2626; font-weight: 700;"> </span><span style="color: #FF4500; font-weight: 700;">c</span><span style="color: #FF5A00; font-weight: 700;">o</span><span style="color: #FF6A00; font-weight: 700;">o</span><span style="color: #FF8C1E; font-weight: 700;">k</span><span style="color: #FFAE3F; font-weight: 700;">e</span><span style="color: #FFD166; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(10)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(10)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="11">
+          <td class="idx">12</td>
+          <td class="preview"><span style="color: #CF5C04; font-weight: 700;">c</span><span style="color: #D1710F; font-weight: 700;">r</span><span style="color: #DB8419; font-weight: 700;">a</span><span style="color: #E29924; font-weight: 700;">f</span><span style="color: #E8AD2D; font-weight: 700;">t</span><span style="color: #EFC238; font-weight: 700;">y</span><span style="color: #E8AD2D; font-weight: 700;">2</span><span style="color: #DB8419; font-weight: 700;">3</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(11)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(11)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="12">
+          <td class="idx">13</td>
+          <td class="preview"><span style="color: #5A0B0B; font-weight: 700;">C</span><span style="color: #641010; font-weight: 700;">r</span><span style="color: #6E1515; font-weight: 700;">i</span><span style="color: #781A1A; font-weight: 700;">m</span><span style="color: #821F1F; font-weight: 700;">s</span><span style="color: #8C2424; font-weight: 700;">o</span><span style="color: #962929; font-weight: 700;">n</span><span style="color: #A02E2E; font-weight: 700;"> </span><span style="color: #AA3333; font-weight: 700;">R</span><span style="color: #B43838; font-weight: 700;">o</span><span style="color: #BE3D3D; font-weight: 700;">b</span><span style="color: #C84242; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(12)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(12)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="13">
+          <td class="idx">14</td>
+          <td class="preview"><span style="color: #7A2E00; font-weight: 700;">D</span><span style="color: #8C3A00; font-weight: 700;">a</span><span style="color: #9E4600; font-weight: 700;">r</span><span style="color: #B45309; font-weight: 700;">k</span><span style="color: #D97706; font-weight: 700;"> </span><span style="color: #F59E0B; font-weight: 700;">C</span><span style="color: #FF6A00; font-weight: 700;">l</span><span style="color: #FF8C1E; font-weight: 700;">e</span><span style="color: #FFA94D; font-weight: 700;">a</span><span style="color: #FFD166; font-weight: 700;">v</span><span style="color: #FFE599; font-weight: 700;">e</span><span style="color: #FFF0C2; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(13)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(13)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="14">
+          <td class="idx">15</td>
+          <td class="preview"><span style="color: #1E4FA3; font-weight: 700;">D</span><span style="color: #2563EB; font-weight: 700;">i</span><span style="color: #2F6FE0; font-weight: 700;">a</span><span style="color: #3F87FF; font-weight: 700;">m</span><span style="color: #4FA3FF; font-weight: 700;">o</span><span style="color: #00D4FF; font-weight: 700;">n</span><span style="color: #5FC1FF; font-weight: 700;">d </span><span style="color: #9FEFFF; font-weight: 700;">H</span><span style="color: #BFEFFF; font-weight: 700;">e</span><span style="color: #D7F7FF; font-weight: 700;">a</span><span style="color: #FFFFFF; font-weight: 700;">d</span><span style="color: #F2F8FF; font-weight: 700;">p</span><span style="color: #E6F6FF; font-weight: 700;">h</span><span style="color: #BFEFFF; font-weight: 700;">o</span><span style="color: #7FD9FF; font-weight: 700;">n</span><span style="color: #5FC1FF; font-weight: 700;">e</span><span style="color: #3FA9FF; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(14)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(14)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="15">
+          <td class="idx">16</td>
+          <td class="preview"><span style="color: #3FA9FF; font-weight: 700;">D</span><span style="color: #5FC1FF; font-weight: 700;">i</span><span style="color: #7FD9FF; font-weight: 700;">a</span><span style="color: #9FEFFF; font-weight: 700;">m</span><span style="color: #00F5FF; font-weight: 700;">o</span><span style="color: #5DEAF0; font-weight: 700;">n</span><span style="color: #9FFBFA; font-weight: 700;">d </span><span style="color: #CFF7FF; font-weight: 700;">H</span><span style="color: #E6FFFF; font-weight: 700;">e</span><span style="color: #FFFFFF; font-weight: 700;">a</span><span style="color: #F2F8FF; font-weight: 700;">d</span><span style="color: #D7F7FF; font-weight: 700;">p</span><span style="color: #BFEFFF; font-weight: 700;">h</span><span style="color: #9FEFFF; font-weight: 700;">o</span><span style="color: #7FD9FF; font-weight: 700;">n</span><span style="color: #5FC1FF; font-weight: 700;">e</span><span style="color: #3FA9FF; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(15)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(15)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="16">
+          <td class="idx">17</td>
+          <td class="preview"><span style="color: #1E4FA3; font-weight: 700;">D</span><span style="color: #2563EB; font-weight: 700;">i</span><span style="color: #2F6FE0; font-weight: 700;">v</span><span style="color: #3F87FF; font-weight: 700;">i</span><span style="color: #4FA3FF; font-weight: 700;">n</span><span style="color: #5FAFFF; font-weight: 700;">g </span><span style="color: #6BB3FF; font-weight: 700;">H</span><span style="color: #7FBFFF; font-weight: 700;">e</span><span style="color: #9FD3FF; font-weight: 700;">l</span><span style="color: #BFEFFF; font-weight: 700;">m</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(16)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(16)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="17">
+          <td class="idx">18</td>
+          <td class="preview"><span style="color: #5C2B00; font-weight: 700;">D</span><span style="color: #663100; font-weight: 700;">u</span><span style="color: #703700; font-weight: 700;">n</span><span style="color: #7A3D00; font-weight: 700;">e </span><span style="color: #8B5A2B; font-weight: 700;">R</span><span style="color: #9C7C43; font-weight: 700;">u</span><span style="color: #B0905D; font-weight: 700;">n</span><span style="color: #C4A487; font-weight: 700;">n</span><span style="color: #D2B48C; font-weight: 700;">e</span><span style="color: #DECAA0; font-weight: 700;">r</span><span style="color: #EADFB4; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(17)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(17)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="18">
+          <td class="idx">19</td>
+          <td class="preview"><span style="color: #6A4A2A; font-weight: 700;">E</span><span style="color: #74542F; font-weight: 700;">a</span><span style="color: #7E5E34; font-weight: 700;">r</span><span style="color: #886839; font-weight: 700;">t</span><span style="color: #92723E; font-weight: 700;">h</span><span style="color: #2F6F5F; font-weight: 700;">s</span><span style="color: #3F7F6F; font-weight: 700;">o</span><span style="color: #4F8F7F; font-weight: 700;">n</span><span style="color: #5FD3A3; font-weight: 700;">g </span><span style="color: #7FE1B8; font-weight: 700;">S</span><span style="color: #9FFFD0; font-weight: 700;">p</span><span style="color: #BFFFE0; font-weight: 700;">a</span><span style="color: #EFFFF0; font-weight: 700;">d</span><span style="color: #F2FFF5; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(18)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(18)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="19">
+          <td class="idx">20</td>
+          <td class="preview"><span style="color: #8B0000; font-weight: 700;">E</span><span style="color: #9E0A0A; font-weight: 700;">d</span><span style="color: #B01414; font-weight: 700;">g</span><span style="color: #C21E1E; font-weight: 700;">e </span><span style="color: #DC2626; font-weight: 700;">o</span><span style="color: #E11D48; font-weight: 700;">f </span><span style="color: #F43F5E; font-weight: 700;">A</span><span style="color: #FF4500; font-weight: 700;">v</span><span style="color: #FF5A00; font-weight: 700;">a</span><span style="color: #FF6A00; font-weight: 700;">r</span><span style="color: #FF8C1E; font-weight: 700;">i</span><span style="color: #FFAE3F; font-weight: 700;">c</span><span style="color: #FFB020; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(19)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(19)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="20">
+          <td class="idx">21</td>
+          <td class="preview"><span style="color: #6D28D9; font-weight: 700;">E</span><span style="color: #742FE0; font-weight: 700;">l</span><span style="color: #7B36E7; font-weight: 700;">d</span><span style="color: #823DEE; font-weight: 700;">e</span><span style="color: #8944F5; font-weight: 700;">r </span><span style="color: #8B5CF6; font-weight: 700;">B</span><span style="color: #A78BFA; font-weight: 700;">l</span><span style="color: #C4B5FD; font-weight: 700;">a</span><span style="color: #DDD6FE; font-weight: 700;">d</span><span style="color: #E0D7FF; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(20)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(20)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="21">
+          <td class="idx">22</td>
+          <td class="preview"><span style="color: #3B1366; font-weight: 700;">E</span><span style="color: #421870; font-weight: 700;">l</span><span style="color: #491D7A; font-weight: 700;">d</span><span style="color: #502284; font-weight: 700;">e</span><span style="color: #57278E; font-weight: 700;">r </span><span style="color: #5E2C98; font-weight: 700;">B</span><span style="color: #6531A2; font-weight: 700;">l</span><span style="color: #6F42B3; font-weight: 700;">a</span><span style="color: #8B5CF6; font-weight: 700;">d</span><span style="color: #A78BFA; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(21)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(21)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="22">
+          <td class="idx">23</td>
+          <td class="preview"><span style="color: #1E3A8A; font-weight: 700;">E</span><span style="color: #2563EB; font-weight: 700;">l</span><span style="color: #2F6FE0; font-weight: 700;">v</span><span style="color: #3F87FF; font-weight: 700;">e</span><span style="color: #4FA3FF; font-weight: 700;">n </span><span style="color: #5FAFFF; font-weight: 700;">B</span><span style="color: #6BB3FF; font-weight: 700;">l</span><span style="color: #7FBFFF; font-weight: 700;">a</span><span style="color: #9FD3FF; font-weight: 700;">d</span><span style="color: #BFEFFF; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(22)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(22)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="23">
+          <td class="idx">24</td>
+          <td class="preview"><span style="color: #E6E6E6; font-weight: 700;">F</span><span style="color: #DDDDDD; font-weight: 700;">o</span><span style="color: #D4D4D4; font-weight: 700;">r</span><span style="color: #CBCBCB; font-weight: 700;">t</span><span style="color: #C2C2C2; font-weight: 700;">u</span><span style="color: #B9B9B9; font-weight: 700;">n</span><span style="color: #B0B0B0; font-weight: 700;">e </span><span style="color: #A7A7A7; font-weight: 700;">F</span><span style="color: #9E9E9E; font-weight: 700;">i</span><span style="color: #959595; font-weight: 700;">n</span><span style="color: #8C8C8C; font-weight: 700;">d</span><span style="color: #8A8A8A; font-weight: 700;">e</span><span style="color: #909090; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(23)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(23)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="24">
+          <td class="idx">25</td>
+          <td class="preview"><span style="color: #EDEDED; font-weight: 700;">F</span><span style="color: #E3E3E3; font-weight: 700;">o</span><span style="color: #D9D9D9; font-weight: 700;">r</span><span style="color: #CFCFCF; font-weight: 700;">t</span><span style="color: #C5C5C5; font-weight: 700;">u</span><span style="color: #BBBBBB; font-weight: 700;">n</span><span style="color: #B1B1B1; font-weight: 700;">e</span><span style="color: #A7A7A7; font-weight: 700;"> </span><span style="color: #9D9D9D; font-weight: 700;">P</span><span style="color: #939393; font-weight: 700;">i</span><span style="color: #898989; font-weight: 700;">c</span><span style="color: #8E8E8E; font-weight: 700;">k</span><span style="color: #949494; font-weight: 700;">a</span><span style="color: #9A9A9A; font-weight: 700;">x</span><span style="color: #A0A0A0; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(24)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(24)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="25">
+          <td class="idx">26</td>
+          <td class="preview"><span style="color: #C97C00; font-weight: 700;">F</span><span style="color: #D18A00; font-weight: 700;">o</span><span style="color: #D99800; font-weight: 700;">r</span><span style="color: #E1A600; font-weight: 700;">t</span><span style="color: #E9B400; font-weight: 700;">u</span><span style="color: #F1C200; font-weight: 700;">n</span><span style="color: #F9D000; font-weight: 700;">e</span><span style="color: #FFD166; font-weight: 700;">’</span><span style="color: #FFE599; font-weight: 700;">s </span><span style="color: #FFF0C2; font-weight: 700;">F</span><span style="color: #FFE599; font-weight: 700;">a</span><span style="color: #FFD966; font-weight: 700;">v</span><span style="color: #F9D000; font-weight: 700;">o</span><span style="color: #F1C200; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(25)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(25)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="26">
+          <td class="idx">27</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">f</span><span style="color: #8B2400; font-weight: 700;">r</span><span style="color: #9C2A00; font-weight: 700;">i</span><span style="color: #AD3000; font-weight: 700;">e</span><span style="color: #BE3600; font-weight: 700;">d </span><span style="color: #CF3C00; font-weight: 700;">c</span><span style="color: #E04A00; font-weight: 700;">h</span><span style="color: #F15800; font-weight: 700;">i</span><span style="color: #FF6600; font-weight: 700;">c</span><span style="color: #FF7A1A; font-weight: 700;">k</span><span style="color: #FF8F33; font-weight: 700;">e</span><span style="color: #FFA64D; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(26)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(26)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="27">
+          <td class="idx">28</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">F</span><span style="color: #65808C; font-weight: 700;">r</span><span style="color: #7B95A0; font-weight: 700;">o</span><span style="color: #91AAB5; font-weight: 700;">s</span><span style="color: #A7BFC9; font-weight: 700;">t</span><span style="color: #BED3DC; font-weight: 700;">b</span><span style="color: #BED3DC; font-weight: 700;">l</span><span style="color: #A7BFC9; font-weight: 700;">a</span><span style="color: #91AAB5; font-weight: 700;">d</span><span style="color: #7B95A0; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(27)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(27)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="28">
+          <td class="idx">29</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">F</span><span style="color: #65808C; font-weight: 700;">r</span><span style="color: #7B95A0; font-weight: 700;">o</span><span style="color: #91AAB5; font-weight: 700;">s</span><span style="color: #A7BFC9; font-weight: 700;">t</span><span style="color: #BED3DC; font-weight: 700;">s</span><span style="color: #BED3DC; font-weight: 700;">t</span><span style="color: #A7BFC9; font-weight: 700;">r</span><span style="color: #91AAB5; font-weight: 700;">i</span><span style="color: #7B95A0; font-weight: 700;">n</span><span style="color: #65808C; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(28)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(28)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="29">
+          <td class="idx">30</td>
+          <td class="preview"><span style="color: #B8860B; font-weight: 700;">G</span><span style="color: #C4971A; font-weight: 700;">i</span><span style="color: #D0A829; font-weight: 700;">l</span><span style="color: #DCB938; font-weight: 700;">d</span><span style="color: #E8CA47; font-weight: 700;">e</span><span style="color: #F3DB66; font-weight: 700;">d </span><span style="color: #FFD700; font-weight: 700;">F</span><span style="color: #FFE066; font-weight: 700;">o</span><span style="color: #FFF0B3; font-weight: 700;">r</span><span style="color: #FFF8E1; font-weight: 700;">t</span><span style="color: #FFFFFF; font-weight: 700;">u</span><span style="color: #FDF6DC; font-weight: 700;">n</span><span style="color: #F9F3DC; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(29)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(29)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="30">
+          <td class="idx">31</td>
+          <td class="preview"><span style="color: #C97C00; font-weight: 700;">G</span><span style="color: #D18A00; font-weight: 700;">o</span><span style="color: #D99800; font-weight: 700;">l</span><span style="color: #E1A600; font-weight: 700;">d </span><span style="color: #E9B400; font-weight: 700;">D</span><span style="color: #F1C200; font-weight: 700;">i</span><span style="color: #F9D000; font-weight: 700;">g</span><span style="color: #FFD166; font-weight: 700;">g</span><span style="color: #FFE599; font-weight: 700;">e</span><span style="color: #FFF0C2; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(30)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(30)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="31">
+          <td class="idx">32</td>
+          <td class="preview"><span style="color: #FFD166; font-weight: 700;">G</span><span style="color: #FFE066; font-weight: 700;">o</span><span style="color: #FFF0B3; font-weight: 700;">l</span><span style="color: #FFF8E1; font-weight: 700;">d </span><span style="color: #FFFFFF; font-weight: 700;">D</span><span style="color: #FFF8E1; font-weight: 700;">i</span><span style="color: #FFF0C2; font-weight: 700;">g</span><span style="color: #FFE599; font-weight: 700;">g</span><span style="color: #FFD966; font-weight: 700;">e</span><span style="color: #FFE599; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(31)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(31)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="32">
+          <td class="idx">33</td>
+          <td class="preview"><span style="color: #5A4A3A; font-weight: 700;">G</span><span style="color: #64503E; font-weight: 700;">r</span><span style="color: #6E5742; font-weight: 700;">a</span><span style="color: #785E46; font-weight: 700;">v</span><span style="color: #82644A; font-weight: 700;">e</span><span style="color: #8C6B4E; font-weight: 700;">d</span><span style="color: #967252; font-weight: 700;">i</span><span style="color: #A07856; font-weight: 700;">g</span><span style="color: #AA7F5A; font-weight: 700;">g</span><span style="color: #B4865E; font-weight: 700;">e</span><span style="color: #BE8D62; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(32)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(32)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="33">
+          <td class="idx">34</td>
+          <td class="preview"><span style="color: #3F352C; font-weight: 700;">G</span><span style="color: #483B2F; font-weight: 700;">r</span><span style="color: #514133; font-weight: 700;">a</span><span style="color: #5A4736; font-weight: 700;">v</span><span style="color: #634D3A; font-weight: 700;">e</span><span style="color: #6C533D; font-weight: 700;">d</span><span style="color: #755941; font-weight: 700;">i</span><span style="color: #7E5F44; font-weight: 700;">g</span><span style="color: #876548; font-weight: 700;">g</span><span style="color: #906B4B; font-weight: 700;">e</span><span style="color: #99714F; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(33)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(33)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="34">
+          <td class="idx">35</td>
+          <td class="preview"><span style="color: #4B4E4F; font-weight: 700;">G</span><span style="color: #555250; font-weight: 700;">r</span><span style="color: #5F5751; font-weight: 700;">a</span><span style="color: #695C52; font-weight: 700;">v</span><span style="color: #736153; font-weight: 700;">e</span><span style="color: #7D6654; font-weight: 700;">d</span><span style="color: #876B55; font-weight: 700;">i</span><span style="color: #917056; font-weight: 700;">g</span><span style="color: #9B7557; font-weight: 700;">g</span><span style="color: #A57A58; font-weight: 700;">e</span><span style="color: #AF7F59; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(34)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(34)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="35">
+          <td class="idx">36</td>
+          <td class="preview"><span style="color: #574736; font-weight: 700;">G</span><span style="color: #614C38; font-weight: 700;">r</span><span style="color: #6B513B; font-weight: 700;">a</span><span style="color: #75563D; font-weight: 700;">v</span><span style="color: #7F5B40; font-weight: 700;">e</span><span style="color: #896042; font-weight: 700;">d</span><span style="color: #936545; font-weight: 700;">i</span><span style="color: #9D6A47; font-weight: 700;">g</span><span style="color: #A76F4A; font-weight: 700;">g</span><span style="color: #B1744C; font-weight: 700;">e</span><span style="color: #BB794F; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(35)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(35)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="36">
+          <td class="idx">37</td>
+          <td class="preview"><span style="color: #7FD9FF; font-weight: 700;">H</span><span style="color: #8FE5FF; font-weight: 700;">e</span><span style="color: #9FEFFF; font-weight: 700;">l</span><span style="color: #BFEFFF; font-weight: 700;">m </span><span style="color: #D7F7FF; font-weight: 700;">o</span><span style="color: #E6F6FF; font-weight: 700;">f </span><span style="color: #C4B5FD; font-weight: 700;">A</span><span style="color: #B7A5FF; font-weight: 700;">d</span><span style="color: #A78BFA; font-weight: 700;">v</span><span style="color: #BCA7FF; font-weight: 700;">e</span><span style="color: #C4B5FD; font-weight: 700;">n</span><span style="color: #DDD6FE; font-weight: 700;">t</span><span style="color: #E0D7FF; font-weight: 700;">u</span><span style="color: #DDD6FE; font-weight: 700;">r</span><span style="color: #C4B5FD; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(36)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(36)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="37">
+          <td class="idx">38</td>
+          <td class="preview"><span style="color: #343AAB; font-weight: 700;">H</span><span style="color: #3845B3; font-weight: 700;">e</span><span style="color: #3D4FBA; font-weight: 700;">l</span><span style="color: #415AC2; font-weight: 700;">m</span><span style="color: #3D4FBA; font-weight: 700;"> </span><span style="color: #3845B3; font-weight: 700;">o</span><span style="color: #343AAB; font-weight: 700;">f</span><span style="color: #343AAB; font-weight: 700;"> </span><span style="color: #3845B3; font-weight: 700;">P</span><span style="color: #3D4FBA; font-weight: 700;">r</span><span style="color: #415AC2; font-weight: 700;">o</span><span style="color: #3D4FBA; font-weight: 700;">t</span><span style="color: #3845B3; font-weight: 700;">e</span><span style="color: #343AAB; font-weight: 700;">c</span><span style="color: #343AAB; font-weight: 700;">t</span><span style="color: #3845B3; font-weight: 700;">i</span><span style="color: #3D4FBA; font-weight: 700;">o</span><span style="color: #415AC2; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(37)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(37)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="38">
+          <td class="idx">39</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">I</span><span style="color: #65808C; font-weight: 700;">c</span><span style="color: #7B95A0; font-weight: 700;">e</span><span style="color: #91AAB5; font-weight: 700;">f</span><span style="color: #A7BFC9; font-weight: 700;">a</span><span style="color: #BED3DC; font-weight: 700;">n</span><span style="color: #BED3DC; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(38)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(38)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="39">
+          <td class="idx">40</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">I</span><span style="color: #65808C; font-weight: 700;">c</span><span style="color: #7B95A0; font-weight: 700;">y </span><span style="color: #91AAB5; font-weight: 700;">C</span><span style="color: #A7BFC9; font-weight: 700;">h</span><span style="color: #BED3DC; font-weight: 700;">e</span><span style="color: #BED3DC; font-weight: 700;">s</span><span style="color: #A7BFC9; font-weight: 700;">t</span><span style="color: #91AAB5; font-weight: 700;">p</span><span style="color: #7B95A0; font-weight: 700;">l</span><span style="color: #65808C; font-weight: 700;">a</span><span style="color: #4E6C79; font-weight: 700;">t</span><span style="color: #65808C; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(39)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(39)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="40">
+          <td class="idx">41</td>
+          <td class="preview"><span style="color: #2a5953; font-weight: 700;">I</span><span style="color: #30625b; font-weight: 700;">m</span><span style="color: #356b63; font-weight: 700;">p</span><span style="color: #3b746b; font-weight: 700;">e</span><span style="color: #407e73; font-weight: 700;">r</span><span style="color: #46877b; font-weight: 700;">i</span><span style="color: #4b9083; font-weight: 700;">a</span><span style="color: #51998b; font-weight: 700;">l </span><span style="color: #56a292; font-weight: 700;">S</span><span style="color: #5cab9a; font-weight: 700;">t</span><span style="color: #61b4a2; font-weight: 700;">r</span><span style="color: #67bdaa; font-weight: 700;">i</span><span style="color: #6cc7b2; font-weight: 700;">d</span><span style="color: #72d0ba; font-weight: 700;">e</span><span style="color: #77d9c2; font-weight: 700;">r</span><span style="color: #7de2ca; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(40)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(40)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="41">
+          <td class="idx">42</td>
+          <td class="preview"><span style="color: #6D28D9; font-weight: 700;">K</span><span style="color: #742FE0; font-weight: 700;">i</span><span style="color: #7B36E7; font-weight: 700;">n</span><span style="color: #823DEE; font-weight: 700;">g</span><span style="color: #8944F5; font-weight: 700;">’</span><span style="color: #8B5CF6; font-weight: 700;">s </span><span style="color: #A78BFA; font-weight: 700;">B</span><span style="color: #C4B5FD; font-weight: 700;">l</span><span style="color: #DDD6FE; font-weight: 700;">a</span><span style="color: #E0D7FF; font-weight: 700;">d</span><span style="color: #DDD6FE; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(41)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(41)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="42">
+          <td class="idx">43</td>
+          <td class="preview"><span style="color: #5A5A5A; font-weight: 700;">K</span><span style="color: #626262; font-weight: 700;">n</span><span style="color: #6A6A6A; font-weight: 700;">i</span><span style="color: #727272; font-weight: 700;">g</span><span style="color: #7A7A7A; font-weight: 700;">h</span><span style="color: #828282; font-weight: 700;">t</span><span style="color: #8A8A88; font-weight: 700;"> </span><span style="color: #92928E; font-weight: 700;">P</span><span style="color: #9A9A94; font-weight: 700;">i</span><span style="color: #A2A29A; font-weight: 700;">c</span><span style="color: #AAAAA0; font-weight: 700;">k</span><span style="color: #B2B2A6; font-weight: 700;">a</span><span style="color: #B4B4A0; font-weight: 700;">x</span><span style="color: #ACAC9A; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(42)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(42)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="43">
+          <td class="idx">44</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">L</span><span style="color: #8B2400; font-weight: 700;">a</span><span style="color: #9C2A00; font-weight: 700;">v</span><span style="color: #AD3000; font-weight: 700;">a </span><span style="color: #BE3600; font-weight: 700;">C</span><span style="color: #CF3C00; font-weight: 700;">h</span><span style="color: #E04A00; font-weight: 700;">i</span><span style="color: #F15800; font-weight: 700;">c</span><span style="color: #FF6600; font-weight: 700;">k</span><span style="color: #FF7A1A; font-weight: 700;">e</span><span style="color: #FF8F33; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(43)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(43)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="44">
+          <td class="idx">45</td>
+          <td class="preview"><span style="color: #343AAB; font-weight: 700;">L</span><span style="color: #3845B3; font-weight: 700;">e</span><span style="color: #3D4FBA; font-weight: 700;">g</span><span style="color: #415AC2; font-weight: 700;">g</span><span style="color: #3D4FBA; font-weight: 700;">i</span><span style="color: #3845B3; font-weight: 700;">n</span><span style="color: #343AAB; font-weight: 700;">g</span><span style="color: #343AAB; font-weight: 700;">s</span><span style="color: #3845B3; font-weight: 700;"> </span><span style="color: #3D4FBA; font-weight: 700;">o</span><span style="color: #415AC2; font-weight: 700;">f</span><span style="color: #3D4FBA; font-weight: 700;"> </span><span style="color: #3845B3; font-weight: 700;">P</span><span style="color: #343AAB; font-weight: 700;">r</span><span style="color: #343AAB; font-weight: 700;">o</span><span style="color: #3845B3; font-weight: 700;">t</span><span style="color: #3D4FBA; font-weight: 700;">e</span><span style="color: #415AC2; font-weight: 700;">c</span><span style="color: #3D4FBA; font-weight: 700;">t</span><span style="color: #3845B3; font-weight: 700;">i</span><span style="color: #343AAB; font-weight: 700;">o</span><span style="color: #343AAB; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(44)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(44)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="45">
+          <td class="idx">46</td>
+          <td class="preview"><span style="color: #102A4F; font-weight: 700;">M</span><span style="color: #163A7A; font-weight: 700;">i</span><span style="color: #1E4FA3; font-weight: 700;">n</span><span style="color: #2F6FE0; font-weight: 700;">e</span><span style="color: #3F87FF; font-weight: 700;">r</span><span style="color: #4FA3FF; font-weight: 700;">’</span><span style="color: #5FAFFF; font-weight: 700;">s </span><span style="color: #6BB3FF; font-weight: 700;">I</span><span style="color: #7FBFFF; font-weight: 700;">c</span><span style="color: #9FD3FF; font-weight: 700;">e</span><span style="color: #BFEFFF; font-weight: 700;">b</span><span style="color: #D7F7FF; font-weight: 700;">o</span><span style="color: #E6F6FF; font-weight: 700;">x</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(45)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(45)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="46">
+          <td class="idx">47</td>
+          <td class="preview"><span style="color: #CFCFCF; font-weight: 700;">M</span><span style="color: #C7C7C7; font-weight: 700;">i</span><span style="color: #BFBFBF; font-weight: 700;">n</span><span style="color: #B7B7B7; font-weight: 700;">e</span><span style="color: #AFAFAF; font-weight: 700;">r</span><span style="color: #A7A7A7; font-weight: 700;">’</span><span style="color: #9F9F9F; font-weight: 700;">s </span><span style="color: #B6B6B6; font-weight: 700;">S</span><span style="color: #CFCFCF; font-weight: 700;">h</span><span style="color: #E6E6E6; font-weight: 700;">u</span><span style="color: #FFFFFF; font-weight: 700;">l</span><span style="color: #E6E6E6; font-weight: 700;">k</span><span style="color: #CFCFCF; font-weight: 700;">e</span><span style="color: #B6B6B6; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(46)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(46)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="47">
+          <td class="idx">48</td>
+          <td class="preview"><span style="color: #2a5953; font-weight: 700;">M</span><span style="color: #2f615c; font-weight: 700;">n</span><span style="color: #356569; font-weight: 700;">e</span><span style="color: #3d7374; font-weight: 700;">m</span><span style="color: #45807e; font-weight: 700;">o</span><span style="color: #4d8e89; font-weight: 700;">n</span><span style="color: #569d93; font-weight: 700;">i</span><span style="color: #5eab9e; font-weight: 700;">c </span><span style="color: #66b9a9; font-weight: 700;">F</span><span style="color: #70cbb7; font-weight: 700;">a</span><span style="color: #7adcc5; font-weight: 700;">n</span><span style="color: #7de2ca; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(47)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(47)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="48">
+          <td class="idx">49</td>
+          <td class="preview"><span style="color: #B8860B; font-weight: 700;">M</span><span style="color: #C4971A; font-weight: 700;">y</span><span style="color: #D0A829; font-weight: 700;">t</span><span style="color: #DCB938; font-weight: 700;">h</span><span style="color: #E8CA47; font-weight: 700;">i</span><span style="color: #F3DB66; font-weight: 700;">c </span><span style="color: #FFD700; font-weight: 700;">P</span><span style="color: #FFE066; font-weight: 700;">r</span><span style="color: #FFF0B3; font-weight: 700;">o</span><span style="color: #FFFFFF; font-weight: 700;">s</span><span style="color: #FFF8E1; font-weight: 700;">p</span><span style="color: #FFF0C2; font-weight: 700;">e</span><span style="color: #FFE599; font-weight: 700;">c</span><span style="color: #FFD966; font-weight: 700;">t</span><span style="color: #FFD700; font-weight: 700;">o</span><span style="color: #F3DB66; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(48)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(48)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="49">
+          <td class="idx">50</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">N</span><span style="color: #8B0000; font-weight: 700;">i</span><span style="color: #9E0A0A; font-weight: 700;">f</span><span style="color: #B01414; font-weight: 700;">l</span><span style="color: #C21E1E; font-weight: 700;">h</span><span style="color: #DC2626; font-weight: 700;">e</span><span style="color: #FF4500; font-weight: 700;">i</span><span style="color: #FF5A00; font-weight: 700;">m </span><span style="color: #FF6A00; font-weight: 700;">H</span><span style="color: #FF8C1E; font-weight: 700;">e</span><span style="color: #FFAE3F; font-weight: 700;">l</span><span style="color: #FFD166; font-weight: 700;">m</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(49)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(49)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="50">
+          <td class="idx">51</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">N</span><span style="color: #65808C; font-weight: 700;">i</span><span style="color: #7B95A0; font-weight: 700;">g</span><span style="color: #91AAB5; font-weight: 700;">h</span><span style="color: #A7BFC9; font-weight: 700;">t</span><span style="color: #BED3DC; font-weight: 700;">b</span><span style="color: #BED3DC; font-weight: 700;">l</span><span style="color: #A7BFC9; font-weight: 700;">a</span><span style="color: #91AAB5; font-weight: 700;">d</span><span style="color: #7B95A0; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(50)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(50)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="51">
+          <td class="idx">52</td>
+          <td class="preview"><span style="color: #B45309; font-weight: 700;">R</span><span style="color: #C2410C; font-weight: 700;">a</span><span style="color: #D97706; font-weight: 700;">d</span><span style="color: #F59E0B; font-weight: 700;">i</span><span style="color: #FF6A00; font-weight: 700;">a</span><span style="color: #FF8C1E; font-weight: 700;">n</span><span style="color: #FFAE3F; font-weight: 700;">t </span><span style="color: #FFD166; font-weight: 700;">B</span><span style="color: #FFE599; font-weight: 700;">l</span><span style="color: #FFF0C2; font-weight: 700;">a</span><span style="color: #FFFFFF; font-weight: 700;">d</span><span style="color: #FFF8E1; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(51)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(51)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="52">
+          <td class="idx">53</td>
+          <td class="preview"><span style="color: #3A5F3A; font-weight: 700;">R</span><span style="color: #426A42; font-weight: 700;">a</span><span style="color: #4A754A; font-weight: 700;">n</span><span style="color: #528052; font-weight: 700;">g</span><span style="color: #5A8B5A; font-weight: 700;">e</span><span style="color: #629662; font-weight: 700;">r</span><span style="color: #6AA16A; font-weight: 700;">’</span><span style="color: #72AC72; font-weight: 700;">s </span><span style="color: #7FBF7F; font-weight: 700;">A</span><span style="color: #8FD08F; font-weight: 700;">x</span><span style="color: #9FD89F; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(52)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(52)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="53">
+          <td class="idx">54</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">R</span><span style="color: #1A6F3D; font-weight: 700;">a</span><span style="color: #1E8449; font-weight: 700;">n</span><span style="color: #239B56; font-weight: 700;">g</span><span style="color: #27AE60; font-weight: 700;">e</span><span style="color: #43C380; font-weight: 700;">r</span><span style="color: #5FD1A0; font-weight: 700;">’</span><span style="color: #7DCEA0; font-weight: 700;">s </span><span style="color: #7DCEA0; font-weight: 700;">A</span><span style="color: #6FCF7F; font-weight: 700;">x</span><span style="color: #5FD1A0; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(53)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(53)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="54">
+          <td class="idx">55</td>
+          <td class="preview"><span style="color: #1F3F2A; font-weight: 700;">R</span><span style="color: #254A32; font-weight: 700;">a</span><span style="color: #2B553A; font-weight: 700;">n</span><span style="color: #316042; font-weight: 700;">g</span><span style="color: #3A5F3A; font-weight: 700;">e</span><span style="color: #4A754A; font-weight: 700;">r</span><span style="color: #5A8B5A; font-weight: 700;">’</span><span style="color: #6FAF6F; font-weight: 700;">s </span><span style="color: #7FBF7F; font-weight: 700;">W</span><span style="color: #8FD08F; font-weight: 700;">h</span><span style="color: #9FD89F; font-weight: 700;">i</span><span style="color: #A7DFA7; font-weight: 700;">s</span><span style="color: #B7FFB7; font-weight: 700;">p</span><span style="color: #C9FFC7; font-weight: 700;">e</span><span style="color: #D7F7FF; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(54)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(54)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="55">
+          <td class="idx">56</td>
+          <td class="preview"><span style="color: #4A4A4A; font-weight: 700;">R</span><span style="color: #505050; font-weight: 700;">a</span><span style="color: #565656; font-weight: 700;">v</span><span style="color: #5C5C5C; font-weight: 700;">e</span><span style="color: #626262; font-weight: 700;">n</span><span style="color: #686868; font-weight: 700;">b</span><span style="color: #7E7E7E; font-weight: 700;">l</span><span style="color: #9E9E9E; font-weight: 700;">a</span><span style="color: #BEBEBE; font-weight: 700;">d</span><span style="color: #E6E6E6; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(55)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(55)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="56">
+          <td class="idx">57</td>
+          <td class="preview"><span style="color: #08162F; font-weight: 700;">R</span><span style="color: #0F2345; font-weight: 700;">a</span><span style="color: #163A7A; font-weight: 700;">v</span><span style="color: #1E4FA3; font-weight: 700;">e</span><span style="color: #2F6FE0; font-weight: 700;">n</span><span style="color: #3F87FF; font-weight: 700;">b</span><span style="color: #2F6FE0; font-weight: 700;">l</span><span style="color: #1E4FA3; font-weight: 700;">a</span><span style="color: #163A7A; font-weight: 700;">d</span><span style="color: #0F2345; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(56)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(56)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="57">
+          <td class="idx">58</td>
+          <td class="preview"><span style="color: #6F42B3; font-weight: 700;">R</span><span style="color: #5A2D91; font-weight: 700;">a</span><span style="color: #4A1F7A; font-weight: 700;">v</span><span style="color: #3B1366; font-weight: 700;">e</span><span style="color: #32105B; font-weight: 700;">n</span><span style="color: #280C51; font-weight: 700;">b</span><span style="color: #1F083D; font-weight: 700;">l</span><span style="color: #160529; font-weight: 700;">a</span><span style="color: #12031F; font-weight: 700;">d</span><span style="color: #0A0014; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(57)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(57)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="58">
+          <td class="idx">59</td>
+          <td class="preview"><span style="color: #0E2A16; font-weight: 700;">R</span><span style="color: #11301A; font-weight: 700;">e</span><span style="color: #14361F; font-weight: 700;">c</span><span style="color: #183C24; font-weight: 700;">l</span><span style="color: #1B4229; font-weight: 700;">a</span><span style="color: #1F482E; font-weight: 700;">i</span><span style="color: #234E33; font-weight: 700;">m</span><span style="color: #275438; font-weight: 700;">e</span><span style="color: #2B5A3D; font-weight: 700;">d </span><span style="color: #2F6042; font-weight: 700;">C</span><span style="color: #336647; font-weight: 700;">h</span><span style="color: #376C4C; font-weight: 700;">e</span><span style="color: #3B7251; font-weight: 700;">s</span><span style="color: #3F7856; font-weight: 700;">t</span><span style="color: #437E5B; font-weight: 700;">p</span><span style="color: #478460; font-weight: 700;">l</span><span style="color: #4B8A65; font-weight: 700;">a</span><span style="color: #4F906A; font-weight: 700;">t</span><span style="color: #53966F; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(58)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(58)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="59">
+          <td class="idx">60</td>
+          <td class="preview"><span style="color: #B45309; font-weight: 700;">R</span><span style="color: #C2410C; font-weight: 700;">e</span><span style="color: #D97706; font-weight: 700;">c</span><span style="color: #F59E0B; font-weight: 700;">u</span><span style="color: #FDBA74; font-weight: 700;">r</span><span style="color: #FFD166; font-weight: 700;">v</span><span style="color: #FFE599; font-weight: 700;">e</span><span style="color: #FFF0C2; font-weight: 700;"> </span><span style="color: #FFD166; font-weight: 700;">B</span><span style="color: #FDBA74; font-weight: 700;">o</span><span style="color: #F59E0B; font-weight: 700;">w</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(59)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(59)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="60">
+          <td class="idx">61</td>
+          <td class="preview"><span style="color: #6A4A2A; font-weight: 700;">R</span><span style="color: #74542F; font-weight: 700;">e</span><span style="color: #7E5E34; font-weight: 700;">l</span><span style="color: #886839; font-weight: 700;">i</span><span style="color: #92723E; font-weight: 700;">c </span><span style="color: #9C7C43; font-weight: 700;">M</span><span style="color: #B0905D; font-weight: 700;">i</span><span style="color: #C2A94D; font-weight: 700;">n</span><span style="color: #FFD966; font-weight: 700;">e</span><span style="color: #FFE599; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(60)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(60)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="61">
+          <td class="idx">62</td>
+          <td class="preview"><span style="color: #163A7A; font-weight: 700;">R</span><span style="color: #1E4FA3; font-weight: 700;">o</span><span style="color: #2563EB; font-weight: 700;">b</span><span style="color: #2F6FE0; font-weight: 700;">e </span><span style="color: #3F87FF; font-weight: 700;">o</span><span style="color: #4FA3FF; font-weight: 700;">f </span><span style="color: #5FAFFF; font-weight: 700;">P</span><span style="color: #57A2FF; font-weight: 700;">r</span><span style="color: #4FA3FF; font-weight: 700;">o</span><span style="color: #3F87FF; font-weight: 700;">t</span><span style="color: #2F6FE0; font-weight: 700;">e</span><span style="color: #2563EB; font-weight: 700;">c</span><span style="color: #1E4FA3; font-weight: 700;">t</span><span style="color: #163A7A; font-weight: 700;">i</span><span style="color: #163A7A; font-weight: 700;">o</span><span style="color: #1E4FA3; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(61)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(61)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="62">
+          <td class="idx">63</td>
+          <td class="preview"><span style="color: #343AAB; font-weight: 700;">R</span><span style="color: #3845B3; font-weight: 700;">o</span><span style="color: #3D4FBA; font-weight: 700;">b</span><span style="color: #415AC2; font-weight: 700;">e</span><span style="color: #3D4FBA; font-weight: 700;"> </span><span style="color: #3845B3; font-weight: 700;">o</span><span style="color: #343AAB; font-weight: 700;">f</span><span style="color: #343AAB; font-weight: 700;"> </span><span style="color: #3845B3; font-weight: 700;">P</span><span style="color: #3D4FBA; font-weight: 700;">r</span><span style="color: #415AC2; font-weight: 700;">o</span><span style="color: #3D4FBA; font-weight: 700;">t</span><span style="color: #3845B3; font-weight: 700;">e</span><span style="color: #343AAB; font-weight: 700;">c</span><span style="color: #343AAB; font-weight: 700;">t</span><span style="color: #3845B3; font-weight: 700;">i</span><span style="color: #3D4FBA; font-weight: 700;">o</span><span style="color: #415AC2; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(62)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(62)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="63">
+          <td class="idx">64</td>
+          <td class="preview"><span style="color: #6B0F0F; font-weight: 700;">R</span><span style="color: #731414; font-weight: 700;">o</span><span style="color: #7B1919; font-weight: 700;">b</span><span style="color: #831E1E; font-weight: 700;">e</span><span style="color: #8B2323; font-weight: 700;"> </span><span style="color: #932828; font-weight: 700;">o</span><span style="color: #9B2D2D; font-weight: 700;">f</span><span style="color: #A33232; font-weight: 700;"> </span><span style="color: #AB3737; font-weight: 700;">t</span><span style="color: #B33C3C; font-weight: 700;">h</span><span style="color: #BB4141; font-weight: 700;">e</span><span style="color: #C34646; font-weight: 700;"> </span><span style="color: #CB4B3B; font-weight: 700;">R</span><span style="color: #D35030; font-weight: 700;">e</span><span style="color: #DB5525; font-weight: 700;">d</span><span style="color: #E35A1A; font-weight: 700;"> </span><span style="color: #EB5F10; font-weight: 700;">D</span><span style="color: #F36406; font-weight: 700;">a</span><span style="color: #FB6900; font-weight: 700;">w</span><span style="color: #FF7A1A; font-weight: 700;">n</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(63)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(63)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="64">
+          <td class="idx">65</td>
+          <td class="preview"><span style="color: #6D28D9; font-weight: 700;">R</span><span style="color: #742FE0; font-weight: 700;">o</span><span style="color: #7B36E7; font-weight: 700;">y</span><span style="color: #823DEE; font-weight: 700;">a</span><span style="color: #8944F5; font-weight: 700;">l </span><span style="color: #8B5CF6; font-weight: 700;">L</span><span style="color: #A78BFA; font-weight: 700;">e</span><span style="color: #C4B5FD; font-weight: 700;">g</span><span style="color: #DDD6FE; font-weight: 700;">g</span><span style="color: #E0D7FF; font-weight: 700;">i</span><span style="color: #DDD6FE; font-weight: 700;">n</span><span style="color: #C4B5FD; font-weight: 700;">g</span><span style="color: #A78BFA; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(64)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(64)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="65">
+          <td class="idx">66</td>
+          <td class="preview"><span style="color: #6D28D9; font-weight: 700;">R</span><span style="color: #742FE0; font-weight: 700;">o</span><span style="color: #7B36E7; font-weight: 700;">y</span><span style="color: #823DEE; font-weight: 700;">a</span><span style="color: #8944F5; font-weight: 700;">l </span><span style="color: #8B5CF6; font-weight: 700;">R</span><span style="color: #A78BFA; font-weight: 700;">u</span><span style="color: #C4B5FD; font-weight: 700;">n</span><span style="color: #DDD6FE; font-weight: 700;">n</span><span style="color: #E0D7FF; font-weight: 700;">e</span><span style="color: #DDD6FE; font-weight: 700;">r</span><span style="color: #C4B5FD; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(65)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(65)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="66">
+          <td class="idx">67</td>
+          <td class="preview"><span style="color: #4A0000; font-weight: 700;">R</span><span style="color: #5C0000; font-weight: 700;">u</span><span style="color: #6E0000; font-weight: 700;">n</span><span style="color: #800000; font-weight: 700;">e</span><span style="color: #8B0000; font-weight: 700;">d </span><span style="color: #A83232; font-weight: 700;">P</span><span style="color: #C62828; font-weight: 700;">i</span><span style="color: #D45A5A; font-weight: 700;">c</span><span style="color: #E57373; font-weight: 700;">k</span><span style="color: #FF6B6B; font-weight: 700;">a</span><span style="color: #E57373; font-weight: 700;">x</span><span style="color: #D45A5A; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(66)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(66)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="67">
+          <td class="idx">68</td>
+          <td class="preview"><span style="color: #2a5953; font-weight: 700;">S</span><span style="color: #2d5f58; font-weight: 700;">a</span><span style="color: #2e5a60; font-weight: 700;">g</span><span style="color: #35666a; font-weight: 700;">e</span><span style="color: #3d7374; font-weight: 700;">b</span><span style="color: #45807e; font-weight: 700;">o</span><span style="color: #4a8a85; font-weight: 700;">u</span><span style="color: #52968e; font-weight: 700;">n</span><span style="color: #5eab9e; font-weight: 700;">d </span><span style="color: #66b9a9; font-weight: 700;">S</span><span style="color: #6dc6b3; font-weight: 700;">a</span><span style="color: #76d4bf; font-weight: 700;">b</span><span style="color: #7ce0c8; font-weight: 700;">r</span><span style="color: #7de2ca; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(67)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(67)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="68">
+          <td class="idx">69</td>
+          <td class="preview"><span style="color: #2a5953; font-weight: 700;">S</span><span style="color: #2f615d; font-weight: 700;">h</span><span style="color: #356569; font-weight: 700;">a</span><span style="color: #3d7374; font-weight: 700;">d</span><span style="color: #45807e; font-weight: 700;">o</span><span style="color: #4d8e89; font-weight: 700;">w</span><span style="color: #569d93; font-weight: 700;">b</span><span style="color: #5eab9e; font-weight: 700;">l</span><span style="color: #66b9a9; font-weight: 700;">a</span><span style="color: #70cbb7; font-weight: 700;">d</span><span style="color: #7de2ca; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(68)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(68)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="69">
+          <td class="idx">70</td>
+          <td class="preview"><span style="color: #6D28D9; font-weight: 700;">S</span><span style="color: #742FE0; font-weight: 700;">h</span><span style="color: #7B36E7; font-weight: 700;">a</span><span style="color: #823DEE; font-weight: 700;">r</span><span style="color: #8944F5; font-weight: 700;">d </span><span style="color: #8B5CF6; font-weight: 700;">o</span><span style="color: #A78BFA; font-weight: 700;">f </span><span style="color: #C4B5FD; font-weight: 700;">C</span><span style="color: #DDD6FE; font-weight: 700;">h</span><span style="color: #E0D7FF; font-weight: 700;">r</span><span style="color: #DDD6FE; font-weight: 700;">e</span><span style="color: #C4B5FD; font-weight: 700;">r</span><span style="color: #A78BFA; font-weight: 700;">s</span><span style="color: #8B5CF6; font-weight: 700;">i</span><span style="color: #7B36E7; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(69)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(69)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="70">
+          <td class="idx">71</td>
+          <td class="preview"><span style="color: #EDEDED; font-weight: 700;">S</span><span style="color: #E3E3E3; font-weight: 700;">i</span><span style="color: #D9D9D9; font-weight: 700;">l</span><span style="color: #CFCFCF; font-weight: 700;">k</span><span style="color: #C5C5C5; font-weight: 700;"> </span><span style="color: #BBBBBB; font-weight: 700;">P</span><span style="color: #B1B1B1; font-weight: 700;">i</span><span style="color: #A7A7A7; font-weight: 700;">c</span><span style="color: #9D9D9D; font-weight: 700;">k</span><span style="color: #939393; font-weight: 700;">a</span><span style="color: #898989; font-weight: 700;">x</span><span style="color: #8E8E8E; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(70)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(70)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="71">
+          <td class="idx">72</td>
+          <td class="preview"><span style="color: #5B2A86; font-weight: 700;">S</span><span style="color: #6A3496; font-weight: 700;">i</span><span style="color: #793EA6; font-weight: 700;">l</span><span style="color: #8848B6; font-weight: 700;">k</span><span style="color: #9752C6; font-weight: 700;">s</span><span style="color: #A65CD6; font-weight: 700;">o</span><span style="color: #B566E6; font-weight: 700;">n</span><span style="color: #C470F6; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(71)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(71)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="72">
+          <td class="idx">73</td>
+          <td class="preview"><span style="color: #163A7A; font-weight: 700;">S</span><span style="color: #1E4FA3; font-weight: 700;">i</span><span style="color: #2F6FE0; font-weight: 700;">l</span><span style="color: #3F87FF; font-weight: 700;">k</span><span style="color: #4FA3FF; font-weight: 700;">s</span><span style="color: #5FAFFF; font-weight: 700;">o</span><span style="color: #6BB3FF; font-weight: 700;">n</span><span style="color: #7FBFFF; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(72)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(72)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="73">
+          <td class="idx">74</td>
+          <td class="preview"><span style="color: #102A4F; font-weight: 700;">S</span><span style="color: #163A7A; font-weight: 700;">i</span><span style="color: #1E4FA3; font-weight: 700;">l</span><span style="color: #2F6FE0; font-weight: 700;">k</span><span style="color: #3F87FF; font-weight: 700;">s</span><span style="color: #4FA3FF; font-weight: 700;">o</span><span style="color: #5FAFFF; font-weight: 700;">n</span><span style="color: #6BB3FF; font-weight: 700;">g</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(73)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(73)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="74">
+          <td class="idx">75</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">S</span><span style="color: #1A6F3D; font-weight: 700;">i</span><span style="color: #1E8449; font-weight: 700;">l</span><span style="color: #239B56; font-weight: 700;">k</span><span style="color: #27AE60; font-weight: 700;">s</span><span style="color: #43C380; font-weight: 700;">o</span><span style="color: #5FD1A0; font-weight: 700;">n</span><span style="color: #7DCEA0; font-weight: 700;">g </span><span style="color: #7DCEA0; font-weight: 700;">S</span><span style="color: #6FCF7F; font-weight: 700;">p</span><span style="color: #5FD1A0; font-weight: 700;">a</span><span style="color: #43C380; font-weight: 700;">d</span><span style="color: #27AE60; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(74)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(74)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="75">
+          <td class="idx">76</td>
+          <td class="preview"><span style="color: #1F6B2D; font-weight: 700;">S</span><span style="color: #287833; font-weight: 700;">p</span><span style="color: #318639; font-weight: 700;">i</span><span style="color: #3A953F; font-weight: 700;">r</span><span style="color: #43A345; font-weight: 700;">i</span><span style="color: #4CB14B; font-weight: 700;">t </span><span style="color: #55BF51; font-weight: 700;">o</span><span style="color: #5ECD57; font-weight: 700;">f </span><span style="color: #67DB5D; font-weight: 700;">t</span><span style="color: #70E963; font-weight: 700;">h</span><span style="color: #7CF06A; font-weight: 700;">e </span><span style="color: #8AF374; font-weight: 700;">D</span><span style="color: #9AF67E; font-weight: 700;">r</span><span style="color: #AAF988; font-weight: 700;">y</span><span style="color: #BBFC92; font-weight: 700;">a</span><span style="color: #CCFF9C; font-weight: 700;">d</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(75)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(75)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="76">
+          <td class="idx">77</td>
+          <td class="preview"><span style="color: #1E4FA3; font-weight: 700;">S</span><span style="color: #2563EB; font-weight: 700;">t</span><span style="color: #2F6FE0; font-weight: 700;">a</span><span style="color: #3F87FF; font-weight: 700;">r</span><span style="color: #4FA3FF; font-weight: 700;">w</span><span style="color: #00D4FF; font-weight: 700;">a</span><span style="color: #5FC1FF; font-weight: 700;">t</span><span style="color: #9FEFFF; font-weight: 700;">e</span><span style="color: #BFEFFF; font-weight: 700;">r </span><span style="color: #D7F7FF; font-weight: 700;">J</span><span style="color: #FFFFFF; font-weight: 700;">e</span><span style="color: #F2F8FF; font-weight: 700;">w</span><span style="color: #E6F6FF; font-weight: 700;">e</span><span style="color: #BFEFFF; font-weight: 700;">l</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(76)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(76)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="77">
+          <td class="idx">78</td>
+          <td class="preview"><span style="color: #005F73; font-weight: 700;">S</span><span style="color: #007F95; font-weight: 700;">t</span><span style="color: #0A9396; font-weight: 700;">a</span><span style="color: #1BB3B8; font-weight: 700;">r</span><span style="color: #2EC4D6; font-weight: 700;">w</span><span style="color: #5DEAF0; font-weight: 700;">a</span><span style="color: #7FF5F6; font-weight: 700;">t</span><span style="color: #9FFBFA; font-weight: 700;">e</span><span style="color: #CFF7FF; font-weight: 700;">r </span><span style="color: #E6FFFF; font-weight: 700;">J</span><span style="color: #F2F8FF; font-weight: 700;">e</span><span style="color: #D7F7FF; font-weight: 700;">w</span><span style="color: #BFEFFF; font-weight: 700;">e</span><span style="color: #9FEFFF; font-weight: 700;">l</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(77)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(77)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="78">
+          <td class="idx">79</td>
+          <td class="preview"><span style="color: #B7C3CF; font-weight: 700;">S</span><span style="color: #B0BDCA; font-weight: 700;">t</span><span style="color: #AAB7C5; font-weight: 700;">o</span><span style="color: #A4B1C0; font-weight: 700;">n</span><span style="color: #9EABBB; font-weight: 700;">e</span><span style="color: #98A5B6; font-weight: 700;">c</span><span style="color: #92A0B1; font-weight: 700;">u</span><span style="color: #8C9AAC; font-weight: 700;">t</span><span style="color: #8694A7; font-weight: 700;">t</span><span style="color: #808EA2; font-weight: 700;">e</span><span style="color: #7A889D; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(78)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(78)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="79">
+          <td class="idx">80</td>
+          <td class="preview"><span style="color: #005F73; font-weight: 700;">S</span><span style="color: #006F84; font-weight: 700;">t</span><span style="color: #007F95; font-weight: 700;">o</span><span style="color: #0A9396; font-weight: 700;">r</span><span style="color: #1BB3B8; font-weight: 700;">m</span><span style="color: #2EC4D6; font-weight: 700;">b</span><span style="color: #5DEAF0; font-weight: 700;">r</span><span style="color: #7FF5F6; font-weight: 700;">e</span><span style="color: #9FFBFA; font-weight: 700;">a</span><span style="color: #CFF7FF; font-weight: 700;">k</span><span style="color: #EFFFFF; font-weight: 700;">e</span><span style="color: #FFFFFF; font-weight: 700;">r </span><span style="color: #FFFFFF; font-weight: 700;">🌊</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(79)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(79)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="80">
+          <td class="idx">81</td>
+          <td class="preview"><span style="color: #B8860B; font-weight: 700;">S</span><span style="color: #C4971A; font-weight: 700;">u</span><span style="color: #D0A829; font-weight: 700;">n</span><span style="color: #DCB938; font-weight: 700;">p</span><span style="color: #E8CA47; font-weight: 700;">i</span><span style="color: #F3DB66; font-weight: 700;">e</span><span style="color: #FFD700; font-weight: 700;">r</span><span style="color: #FFE066; font-weight: 700;">c</span><span style="color: #FFF0B3; font-weight: 700;">e</span><span style="color: #FFF8E1; font-weight: 700;">r</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(80)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(80)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="81">
+          <td class="idx">82</td>
+          <td class="preview"><span style="color: #DADADA; font-weight: 700;">T</span><span style="color: #D0D0D0; font-weight: 700;">h</span><span style="color: #C6C6C6; font-weight: 700;">i</span><span style="color: #BCBCBC; font-weight: 700;">e</span><span style="color: #B2B2B2; font-weight: 700;">v</span><span style="color: #A8A8A8; font-weight: 700;">i</span><span style="color: #9E9E9E; font-weight: 700;">n</span><span style="color: #949494; font-weight: 700;">g </span><span style="color: #8B2A2A; font-weight: 700;">B</span><span style="color: #A83232; font-weight: 700;">l</span><span style="color: #C62828; font-weight: 700;">a</span><span style="color: #E57373; font-weight: 700;">d</span><span style="color: #D45A5A; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(81)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(81)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="82">
+          <td class="idx">83</td>
+          <td class="preview"><span style="color: #2F2F2F; font-weight: 700;">T</span><span style="color: #3A3A3A; font-weight: 700;">h</span><span style="color: #454545; font-weight: 700;">i</span><span style="color: #505050; font-weight: 700;">e</span><span style="color: #5B5B5B; font-weight: 700;">v</span><span style="color: #666666; font-weight: 700;">i</span><span style="color: #717171; font-weight: 700;">n</span><span style="color: #7C7C7C; font-weight: 700;">g</span><span style="color: #878787; font-weight: 700;"> </span><span style="color: #929292; font-weight: 700;">B</span><span style="color: #9D9D9D; font-weight: 700;">l</span><span style="color: #A8A8A8; font-weight: 700;">a</span><span style="color: #B3B3B3; font-weight: 700;">d</span><span style="color: #BEBEBE; font-weight: 700;">e</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(82)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(82)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="83">
+          <td class="idx">84</td>
+          <td class="preview"><span style="color: #B03030; font-weight: 700;">U</span><span style="color: #C83C3C; font-weight: 700;">l</span><span style="color: #E04848; font-weight: 700;">t</span><span style="color: #FC5454; font-weight: 700;">i</span><span style="color: #FF6A6A; font-weight: 700;">m</span><span style="color: #FC5454; font-weight: 700;">a</span><span style="color: #E04848; font-weight: 700;">t</span><span style="color: #C83C3C; font-weight: 700;">e </span><span style="color: #B03030; font-weight: 700;">S</span><span style="color: #C83C3C; font-weight: 700;">w</span><span style="color: #E04848; font-weight: 700;">o</span><span style="color: #FC5454; font-weight: 700;">r</span><span style="color: #FF6A6A; font-weight: 700;">d</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(83)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(83)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="84">
+          <td class="idx">85</td>
+          <td class="preview"><span style="color: #005F73; font-weight: 700;">W</span><span style="color: #007085; font-weight: 700;">a</span><span style="color: #0A9396; font-weight: 700;">v</span><span style="color: #1BB3B8; font-weight: 700;">e</span><span style="color: #2EC4D6; font-weight: 700;">c</span><span style="color: #5DEAF0; font-weight: 700;">r</span><span style="color: #7FF5F6; font-weight: 700;">a</span><span style="color: #9FFBFA; font-weight: 700;">s</span><span style="color: #CFF7FF; font-weight: 700;">h </span><span style="color: #EFFFFF; font-weight: 700;">🌊</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(84)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(84)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="85">
+          <td class="idx">86</td>
+          <td class="preview"><span style="color: #4E6C79; font-weight: 700;">W</span><span style="color: #65808C; font-weight: 700;">i</span><span style="color: #7B95A0; font-weight: 700;">n</span><span style="color: #91AAB5; font-weight: 700;">t</span><span style="color: #A7BFC9; font-weight: 700;">e</span><span style="color: #BED3DC; font-weight: 700;">r </span><span style="color: #BED3DC; font-weight: 700;">B</span><span style="color: #A7BFC9; font-weight: 700;">o</span><span style="color: #91AAB5; font-weight: 700;">o</span><span style="color: #7B95A0; font-weight: 700;">t</span><span style="color: #65808C; font-weight: 700;">s</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(85)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(85)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="86">
+          <td class="idx">87</td>
+          <td class="preview"><span style="color: #4A2A12; font-weight: 700;">W</span><span style="color: #532F15; font-weight: 700;">o</span><span style="color: #5C3418; font-weight: 700;">o</span><span style="color: #65391B; font-weight: 700;">d</span><span style="color: #6A4A2A; font-weight: 700;">s</span><span style="color: #74542F; font-weight: 700;">m</span><span style="color: #7E5E34; font-weight: 700;">a</span><span style="color: #886839; font-weight: 700;">n</span><span style="color: #92723E; font-weight: 700;">’</span><span style="color: #9C7C43; font-weight: 700;">s </span><span style="color: #A68648; font-weight: 700;">H</span><span style="color: #B0905D; font-weight: 700;">a</span><span style="color: #BA9A72; font-weight: 700;">t</span><span style="color: #C4A487; font-weight: 700;">c</span><span style="color: #D2B48C; font-weight: 700;">h</span><span style="color: #DECAA0; font-weight: 700;">e</span><span style="color: #EADFB4; font-weight: 700;">t</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(86)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(86)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="87">
+          <td class="idx">88</td>
+          <td class="preview"><span style="color: #7A1E00; font-weight: 700;">W</span><span style="color: #8B0000; font-weight: 700;">r</span><span style="color: #A83232; font-weight: 700;">a</span><span style="color: #DC2626; font-weight: 700;">t</span><span style="color: #FF4500; font-weight: 700;">h</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(87)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(87)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="88">
+          <td class="idx">89</td>
+          <td class="preview"><span style="color: #C62828; font-weight: 700;">W</span><span style="color: #DC2626; font-weight: 700;">r</span><span style="color: #F43F5E; font-weight: 700;">a</span><span style="color: #FF6B6B; font-weight: 700;">t</span><span style="color: #FFB8B8; font-weight: 700;">h</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(88)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(88)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="89">
+          <td class="idx">90</td>
+          <td class="preview"><span style="color: #272B15; font-weight: 700;">Z</span><span style="color: #32401F; font-weight: 700;">o</span><span style="color: #3B4725; font-weight: 700;">m</span><span style="color: #4F6335; font-weight: 700;">b</span><span style="color: #607942; font-weight: 700;">i</span><span style="color: #6D8346; font-weight: 700;">e </span><span style="color: #7A8D4A; font-weight: 700;">H</span><span style="color: #87974E; font-weight: 700;">a</span><span style="color: #94A452; font-weight: 700;">t</span><span style="color: #9BAA54; font-weight: 700;">c</span><span style="color: #A1AF56; font-weight: 700;">h</span><span style="color: #A9B85E; font-weight: 700;">e</span><span style="color: #B4C66A; font-weight: 700;">t</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(89)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(89)">Copy Normal</button>
+          </td>
+        </tr>
+        
+
+        <tr data-i="90">
+          <td class="idx">91</td>
+          <td class="preview"><span style="color: #145A32; font-weight: 700;">Z</span><span style="color: #1E8449; font-weight: 700;">o</span><span style="color: #27AE60; font-weight: 700;">m</span><span style="color: #43C380; font-weight: 700;">b</span><span style="color: #5FD1A0; font-weight: 700;">i</span><span style="color: #7CFF6B; font-weight: 700;">e </span><span style="color: #98FF87; font-weight: 700;">H</span><span style="color: #A3FF99; font-weight: 700;">a</span><span style="color: #B6FFB0; font-weight: 700;">t</span><span style="color: #C9FFC7; font-weight: 700;">c</span><span style="color: #EFFFF0; font-weight: 700;">h</span><span style="color: #D7F7FF; font-weight: 700;">e</span><span style="color: #C9FFC7; font-weight: 700;">t</span></td>
+          <td class="actions">
+            <button class="btn" onclick="copyBold(90)">Copy Bold</button>
+            <button class="btn" onclick="copyNormal(90)">Copy Normal</button>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span class="dot"></span>
+    <span id="toastText">Copied</span>
+  </div>
+
+  <script>
+    const entries = ["&#145A32&lA&#1A6F3D&lr&#1E8449&lt&#239B56&le&#27AE60&lm&#43C380&li&#5FD1A0&ls&#7DCEA0&l\u2019 &#5FAF6F&lB&#6FCF7F&li&#7FBF7F&lt&#8FD08F&le", "&#5C2B00&lA&#663100&lu&#703700&lt&#7A3D00&lo&#8B5A2B&lm&#9C7C43&la&#B0905D&lt&#C2A94D&lo&#D99800&ln &#C97C00&lH&#D18A00&le&#D99800&ll&#E1A600&lm", "&#7A1E00&lB&#8B0000&le&#9E0A0A&lr&#B01414&ls&#C21E1E&le&#DC2626&lr&#FF4500&lk&#FF5A00&le&#FF6A00&lr&#FF8C1E&l\u2019&#FFAE3F&ls &#F59E0B&lH&#FF4500&la&#DC2626&lu&#C62828&lb&#8B0000&le&#6E0000&lr&#5C0000&lk", "&#DADADA&lB&#D0D0D0&ll&#C6C6C6&la&#BCBCBC&ld&#B2B2B2&le &#A8A8A8&lo&#9E9E9E&lf &#B6B6B6&lt&#CFCFCF&lh&#E6E6E6&le &#FFFFFF&lW&#EDEDED&le&#DADADA&ls&#C8C8C8&lt", "&#343AAB&lB&#3845B3&lo&#3D4FBA&lo&#415AC2&lt&#3D4FBA&ls&#3845B3&l &#343AAB&lo&#343AAB&lf&#3845B3&l &#3D4FBA&lP&#415AC2&lr&#3D4FBA&lo&#3845B3&lt&#343AAB&le&#343AAB&lc&#3845B3&lt&#3D4FBA&li&#415AC2&lo&#3D4FBA&ln", "&#4A2E1A&lb&#6B3F1F&lo&#8C5A2B&lt&#AD7437&le", "&#145A32&lB&#1A6F3D&lu&#1E8449&li&#239B56&ll&#27AE60&ld&#43C380&le&#5FD1A0&lr&#7DCEA0&l\u2019&#9FFFD0&ls &#7DCEA0&lB&#6FCF7F&lo&#5FD1A0&lo&#43C380&lt&#27AE60&ls", "&#145A32&lB&#1A6F3D&lu&#1E8449&li&#239B56&ll&#27AE60&ld&#43C380&le&#5FD1A0&lr&#7DCEA0&l\u2019&#9FFFD0&ls &#7DCEA0&lH&#6FCF7F&le&#5FD1A0&ll&#43C380&lm", "&#145A32&lB&#1A6F3D&lu&#1E8449&li&#239B56&ll&#27AE60&ld&#43C380&le&#5FD1A0&lr&#7DCEA0&l\u2019&#9FFFD0&ls &#7DCEA0&lP&#6FCF7F&la&#5FD1A0&ln&#43C380&lt&#27AE60&ls", "&#145A32&lB&#1A6F3D&lu&#1E8449&li&#239B56&ll&#27AE60&ld&#43C380&le&#5FD1A0&lr&#7DCEA0&l\u2019&#9FFFD0&ls &#7DCEA0&lR&#6FCF7F&lo&#5FD1A0&lb&#43C380&le", "&#7A1E00c&#8B0000h&#9E0A0Ac&#B01414k&#C21E1En&#DC2626 &#FF4500c&#FF5A00o&#FF6A00o&#FF8C1Ek&#FFAE3Fe&#FFD166r", "&#CF5C04c&#D1710Fr&#DB8419a&#E29924f&#E8AD2Dt&#EFC238y&#E8AD2D2&#DB84193", "&#5A0B0B&lC&#641010&lr&#6E1515&li&#781A1A&lm&#821F1F&ls&#8C2424&lo&#962929&ln&#A02E2E&l &#AA3333&lR&#B43838&lo&#BE3D3D&lb&#C84242&le", "&#7A2E00&lD&#8C3A00&la&#9E4600&lr&#B45309&lk&#D97706&l &#F59E0B&lC&#FF6A00&ll&#FF8C1E&le&#FFA94D&la&#FFD166&lv&#FFE599&le&#FFF0C2&lr", "&#1E4FA3&lD&#2563EB&li&#2F6FE0&la&#3F87FF&lm&#4FA3FF&lo&#00D4FF&ln&#5FC1FF&ld &#9FEFFF&lH&#BFEFFF&le&#D7F7FF&la&#FFFFFF&ld&#F2F8FF&lp&#E6F6FF&lh&#BFEFFF&lo&#7FD9FF&ln&#5FC1FF&le&#3FA9FF&ls", "&#3FA9FF&lD&#5FC1FF&li&#7FD9FF&la&#9FEFFF&lm&#00F5FF&lo&#5DEAF0&ln&#9FFBFA&ld &#CFF7FF&lH&#E6FFFF&le&#FFFFFF&la&#F2F8FF&ld&#D7F7FF&lp&#BFEFFF&lh&#9FEFFF&lo&#7FD9FF&ln&#5FC1FF&le&#3FA9FF&ls", "&#1E4FA3&lD&#2563EB&li&#2F6FE0&lv&#3F87FF&li&#4FA3FF&ln&#5FAFFF&lg &#6BB3FF&lH&#7FBFFF&le&#9FD3FF&ll&#BFEFFF&lm", "&#5C2B00&lD&#663100&lu&#703700&ln&#7A3D00&le &#8B5A2B&lR&#9C7C43&lu&#B0905D&ln&#C4A487&ln&#D2B48C&le&#DECAA0&lr&#EADFB4&ls", "&#6A4A2A&lE&#74542F&la&#7E5E34&lr&#886839&lt&#92723E&lh&#2F6F5F&ls&#3F7F6F&lo&#4F8F7F&ln&#5FD3A3&lg &#7FE1B8&lS&#9FFFD0&lp&#BFFFE0&la&#EFFFF0&ld&#F2FFF5&le", "&#8B0000&lE&#9E0A0A&ld&#B01414&lg&#C21E1E&le &#DC2626&lo&#E11D48&lf &#F43F5E&lA&#FF4500&lv&#FF5A00&la&#FF6A00&lr&#FF8C1E&li&#FFAE3F&lc&#FFB020&le", "&#6D28D9&lE&#742FE0&ll&#7B36E7&ld&#823DEE&le&#8944F5&lr &#8B5CF6&lB&#A78BFA&ll&#C4B5FD&la&#DDD6FE&ld&#E0D7FF&le", "&#3B1366&lE&#421870&ll&#491D7A&ld&#502284&le&#57278E&lr &#5E2C98&lB&#6531A2&ll&#6F42B3&la&#8B5CF6&ld&#A78BFA&le", "&#1E3A8A&lE&#2563EB&ll&#2F6FE0&lv&#3F87FF&le&#4FA3FF&ln &#5FAFFF&lB&#6BB3FF&ll&#7FBFFF&la&#9FD3FF&ld&#BFEFFF&le", "&#E6E6E6&lF&#DDDDDD&lo&#D4D4D4&lr&#CBCBCB&lt&#C2C2C2&lu&#B9B9B9&ln&#B0B0B0&le &#A7A7A7&lF&#9E9E9E&li&#959595&ln&#8C8C8C&ld&#8A8A8A&le&#909090&lr", "&#EDEDEDF&#E3E3E3o&#D9D9D9r&#CFCFCFt&#C5C5C5u&#BBBBBBn&#B1B1B1e&#A7A7A7 &#9D9D9DP&#939393i&#898989c&#8E8E8Ek&#949494a&#9A9A9Ax&#A0A0A0e", "&#C97C00&lF&#D18A00&lo&#D99800&lr&#E1A600&lt&#E9B400&lu&#F1C200&ln&#F9D000&le&#FFD166&l\u2019&#FFE599&ls &#FFF0C2&lF&#FFE599&la&#FFD966&lv&#F9D000&lo&#F1C200&lr", "&#7A1E00f&#8B2400r&#9C2A00i&#AD3000e&#BE3600d &#CF3C00c&#E04A00h&#F15800i&#FF6600c&#FF7A1Ak&#FF8F33e&#FFA64Dn", "&#4E6C79&lF&#65808C&lr&#7B95A0&lo&#91AAB5&ls&#A7BFC9&lt&#BED3DC&lb&#BED3DC&ll&#A7BFC9&la&#91AAB5&ld&#7B95A0&le", "&#4E6C79&lF&#65808C&lr&#7B95A0&lo&#91AAB5&ls&#A7BFC9&lt&#BED3DC&ls&#BED3DC&lt&#A7BFC9&lr&#91AAB5&li&#7B95A0&ln&#65808C&lg", "&#B8860B&lG&#C4971A&li&#D0A829&ll&#DCB938&ld&#E8CA47&le&#F3DB66&ld &#FFD700&lF&#FFE066&lo&#FFF0B3&lr&#FFF8E1&lt&#FFFFFF&lu&#FDF6DC&ln&#F9F3DC&le", "&#C97C00&lG&#D18A00&lo&#D99800&ll&#E1A600&ld &#E9B400&lD&#F1C200&li&#F9D000&lg&#FFD166&lg&#FFE599&le&#FFF0C2&lr", "&#FFD166&lG&#FFE066&lo&#FFF0B3&ll&#FFF8E1&ld &#FFFFFF&lD&#FFF8E1&li&#FFF0C2&lg&#FFE599&lg&#FFD966&le&#FFE599&lr", "&#5A4A3A&lG&#64503E&lr&#6E5742&la&#785E46&lv&#82644A&le&#8C6B4E&ld&#967252&li&#A07856&lg&#AA7F5A&lg&#B4865E&le&#BE8D62&lr", "&#3F352C&lG&#483B2F&lr&#514133&la&#5A4736&lv&#634D3A&le&#6C533D&ld&#755941&li&#7E5F44&lg&#876548&lg&#906B4B&le&#99714F&lr", "&#4B4E4F&lG&#555250&lr&#5F5751&la&#695C52&lv&#736153&le&#7D6654&ld&#876B55&li&#917056&lg&#9B7557&lg&#A57A58&le&#AF7F59&lr", "&#574736&lG&#614C38&lr&#6B513B&la&#75563D&lv&#7F5B40&le&#896042&ld&#936545&li&#9D6A47&lg&#A76F4A&lg&#B1744C&le&#BB794F&lr", "&#7FD9FF&lH&#8FE5FF&le&#9FEFFF&ll&#BFEFFF&lm &#D7F7FF&lo&#E6F6FF&lf &#C4B5FD&lA&#B7A5FF&ld&#A78BFA&lv&#BCA7FF&le&#C4B5FD&ln&#DDD6FE&lt&#E0D7FF&lu&#DDD6FE&lr&#C4B5FD&le", "&#343AAB&lH&#3845B3&le&#3D4FBA&ll&#415AC2&lm&#3D4FBA&l &#3845B3&lo&#343AAB&lf&#343AAB&l &#3845B3&lP&#3D4FBA&lr&#415AC2&lo&#3D4FBA&lt&#3845B3&le&#343AAB&lc&#343AAB&lt&#3845B3&li&#3D4FBA&lo&#415AC2&ln", "&#4E6C79&lI&#65808C&lc&#7B95A0&le&#91AAB5&lf&#A7BFC9&la&#BED3DC&ln&#BED3DC&lg", "&#4E6C79&lI&#65808C&lc&#7B95A0&ly &#91AAB5&lC&#A7BFC9&lh&#BED3DC&le&#BED3DC&ls&#A7BFC9&lt&#91AAB5&lp&#7B95A0&ll&#65808C&la&#4E6C79&lt&#65808C&le", "&#2a5953&lI&#30625b&lm&#356b63&lp&#3b746b&le&#407e73&lr&#46877b&li&#4b9083&la&#51998b&ll &#56a292&lS&#5cab9a&lt&#61b4a2&lr&#67bdaa&li&#6cc7b2&ld&#72d0ba&le&#77d9c2&lr&#7de2ca&ls", "&#6D28D9&lK&#742FE0&li&#7B36E7&ln&#823DEE&lg&#8944F5&l\u2019&#8B5CF6&ls &#A78BFA&lB&#C4B5FD&ll&#DDD6FE&la&#E0D7FF&ld&#DDD6FE&le", "&#5A5A5A&lK&#626262&ln&#6A6A6A&li&#727272&lg&#7A7A7A&lh&#828282&lt&#8A8A88&l &#92928E&lP&#9A9A94&li&#A2A29A&lc&#AAAAA0&lk&#B2B2A6&la&#B4B4A0&lx&#ACAC9A&le", "&#7A1E00&lL&#8B2400&la&#9C2A00&lv&#AD3000&la &#BE3600&lC&#CF3C00&lh&#E04A00&li&#F15800&lc&#FF6600&lk&#FF7A1A&le&#FF8F33&ln", "&#343AAB&lL&#3845B3&le&#3D4FBA&lg&#415AC2&lg&#3D4FBA&li&#3845B3&ln&#343AAB&lg&#343AAB&ls&#3845B3&l &#3D4FBA&lo&#415AC2&lf&#3D4FBA&l &#3845B3&lP&#343AAB&lr&#343AAB&lo&#3845B3&lt&#3D4FBA&le&#415AC2&lc&#3D4FBA&lt&#3845B3&li&#343AAB&lo&#343AAB&ln", "&#102A4FM&#163A7Ai&#1E4FA3n&#2F6FE0e&#3F87FFr&#4FA3FF\u2019&#5FAFFFs &#6BB3FFI&#7FBFFFc&#9FD3FFe&#BFEFFFb&#D7F7FFo&#E6F6FFx", "&#CFCFCFM&#C7C7C7i&#BFBFBFn&#B7B7B7e&#AFAFAFr&#A7A7A7\u2019&#9F9F9Fs &#B6B6B6S&#CFCFCFh&#E6E6E6u&#FFFFFFl&#E6E6E6k&#CFCFCFe&#B6B6B6r", "&#2a5953&lM&#2f615c&ln&#356569&le&#3d7374&lm&#45807e&lo&#4d8e89&ln&#569d93&li&#5eab9e&lc &#66b9a9&lF&#70cbb7&la&#7adcc5&ln&#7de2ca&lg", "&#B8860B&lM&#C4971A&ly&#D0A829&lt&#DCB938&lh&#E8CA47&li&#F3DB66&lc &#FFD700&lP&#FFE066&lr&#FFF0B3&lo&#FFFFFF&ls&#FFF8E1&lp&#FFF0C2&le&#FFE599&lc&#FFD966&lt&#FFD700&lo&#F3DB66&lr", "&#7A1E00&lN&#8B0000&li&#9E0A0A&lf&#B01414&ll&#C21E1E&lh&#DC2626&le&#FF4500&li&#FF5A00&lm &#FF6A00&lH&#FF8C1E&le&#FFAE3F&ll&#FFD166&lm", "&#4E6C79&lN&#65808C&li&#7B95A0&lg&#91AAB5&lh&#A7BFC9&lt&#BED3DC&lb&#BED3DC&ll&#A7BFC9&la&#91AAB5&ld&#7B95A0&le", "&#B45309&lR&#C2410C&la&#D97706&ld&#F59E0B&li&#FF6A00&la&#FF8C1E&ln&#FFAE3F&lt &#FFD166&lB&#FFE599&ll&#FFF0C2&la&#FFFFFF&ld&#FFF8E1&le", "&#3A5F3A&lR&#426A42&la&#4A754A&ln&#528052&lg&#5A8B5A&le&#629662&lr&#6AA16A&l\u2019&#72AC72&ls &#7FBF7F&lA&#8FD08F&lx&#9FD89F&le", "&#145A32&lR&#1A6F3D&la&#1E8449&ln&#239B56&lg&#27AE60&le&#43C380&lr&#5FD1A0&l\u2019&#7DCEA0&ls &#7DCEA0&lA&#6FCF7F&lx&#5FD1A0&le", "&#1F3F2A&lR&#254A32&la&#2B553A&ln&#316042&lg&#3A5F3A&le&#4A754A&lr&#5A8B5A&l\u2019&#6FAF6F&ls &#7FBF7F&lW&#8FD08F&lh&#9FD89F&li&#A7DFA7&ls&#B7FFB7&lp&#C9FFC7&le&#D7F7FF&lr", "&#4A4A4A&lR&#505050&la&#565656&lv&#5C5C5C&le&#626262&ln&#686868&lb&#7E7E7E&ll&#9E9E9E&la&#BEBEBE&ld&#E6E6E6&le", "&#08162F&lR&#0F2345&la&#163A7A&lv&#1E4FA3&le&#2F6FE0&ln&#3F87FF&lb&#2F6FE0&ll&#1E4FA3&la&#163A7A&ld&#0F2345&le", "&#6F42B3&lR&#5A2D91&la&#4A1F7A&lv&#3B1366&le&#32105B&ln&#280C51&lb&#1F083D&ll&#160529&la&#12031F&ld&#0A0014&le", "&#0E2A16&lR&#11301A&le&#14361F&lc&#183C24&ll&#1B4229&la&#1F482E&li&#234E33&lm&#275438&le&#2B5A3D&ld &#2F6042&lC&#336647&lh&#376C4C&le&#3B7251&ls&#3F7856&lt&#437E5B&lp&#478460&ll&#4B8A65&la&#4F906A&lt&#53966F&le", "&#B45309R&#C2410Ce&#D97706c&#F59E0Bu&#FDBA74r&#FFD166v&#FFE599e&#FFF0C2 &#FFD166B&#FDBA74o&#F59E0Bw", "&#6A4A2A&lR&#74542F&le&#7E5E34&ll&#886839&li&#92723E&lc &#9C7C43&lM&#B0905D&li&#C2A94D&ln&#FFD966&le&#FFE599&lr", "&#163A7A&lR&#1E4FA3&lo&#2563EB&lb&#2F6FE0&le &#3F87FF&lo&#4FA3FF&lf &#5FAFFF&lP&#57A2FF&lr&#4FA3FF&lo&#3F87FF&lt&#2F6FE0&le&#2563EB&lc&#1E4FA3&lt&#163A7A&li&#163A7A&lo&#1E4FA3&ln", "&#343AAB&lR&#3845B3&lo&#3D4FBA&lb&#415AC2&le&#3D4FBA&l &#3845B3&lo&#343AAB&lf&#343AAB&l &#3845B3&lP&#3D4FBA&lr&#415AC2&lo&#3D4FBA&lt&#3845B3&le&#343AAB&lc&#343AAB&lt&#3845B3&li&#3D4FBA&lo&#415AC2&ln", "&#6B0F0F&lR&#731414&lo&#7B1919&lb&#831E1E&le&#8B2323&l &#932828&lo&#9B2D2D&lf&#A33232&l &#AB3737&lt&#B33C3C&lh&#BB4141&le&#C34646&l &#CB4B3B&lR&#D35030&le&#DB5525&ld&#E35A1A&l &#EB5F10&lD&#F36406&la&#FB6900&lw&#FF7A1A&ln", "&#6D28D9&lR&#742FE0&lo&#7B36E7&ly&#823DEE&la&#8944F5&ll &#8B5CF6&lL&#A78BFA&le&#C4B5FD&lg&#DDD6FE&lg&#E0D7FF&li&#DDD6FE&ln&#C4B5FD&lg&#A78BFA&ls", "&#6D28D9&lR&#742FE0&lo&#7B36E7&ly&#823DEE&la&#8944F5&ll &#8B5CF6&lR&#A78BFA&lu&#C4B5FD&ln&#DDD6FE&ln&#E0D7FF&le&#DDD6FE&lr&#C4B5FD&ls", "&#4A0000&lR&#5C0000&lu&#6E0000&ln&#800000&le&#8B0000&ld &#A83232&lP&#C62828&li&#D45A5A&lc&#E57373&lk&#FF6B6B&la&#E57373&lx&#D45A5A&le", "&#2a5953&lS&#2d5f58&la&#2e5a60&lg&#35666a&le&#3d7374&lb&#45807e&lo&#4a8a85&lu&#52968e&ln&#5eab9e&ld &#66b9a9&lS&#6dc6b3&la&#76d4bf&lb&#7ce0c8&lr&#7de2ca&le", "&#2a5953&lS&#2f615d&lh&#356569&la&#3d7374&ld&#45807e&lo&#4d8e89&lw&#569d93&lb&#5eab9e&ll&#66b9a9&la&#70cbb7&ld&#7de2ca&le", "&#6D28D9&lS&#742FE0&lh&#7B36E7&la&#823DEE&lr&#8944F5&ld &#8B5CF6&lo&#A78BFA&lf &#C4B5FD&lC&#DDD6FE&lh&#E0D7FF&lr&#DDD6FE&le&#C4B5FD&lr&#A78BFA&ls&#8B5CF6&li&#7B36E7&ls", "&#EDEDEDS&#E3E3E3i&#D9D9D9l&#CFCFCFk&#C5C5C5 &#BBBBBBP&#B1B1B1i&#A7A7A7c&#9D9D9Dk&#939393a&#898989x&#8E8E8Ee", "&#5B2A86&lS&#6A3496&li&#793EA6&ll&#8848B6&lk&#9752C6&ls&#A65CD6&lo&#B566E6&ln&#C470F6&lg", "&#163A7A&lS&#1E4FA3&li&#2F6FE0&ll&#3F87FF&lk&#4FA3FF&ls&#5FAFFF&lo&#6BB3FF&ln&#7FBFFF&lg", "&#102A4F&lS&#163A7A&li&#1E4FA3&ll&#2F6FE0&lk&#3F87FF&ls&#4FA3FF&lo&#5FAFFF&ln&#6BB3FF&lg", "&#145A32&lS&#1A6F3D&li&#1E8449&ll&#239B56&lk&#27AE60&ls&#43C380&lo&#5FD1A0&ln&#7DCEA0&lg &#7DCEA0&lS&#6FCF7F&lp&#5FD1A0&la&#43C380&ld&#27AE60&le", "&#1F6B2D&lS&#287833&lp&#318639&li&#3A953F&lr&#43A345&li&#4CB14B&lt &#55BF51&lo&#5ECD57&lf &#67DB5D&lt&#70E963&lh&#7CF06A&le &#8AF374&lD&#9AF67E&lr&#AAF988&ly&#BBFC92&la&#CCFF9C&ld", "&#1E4FA3&lS&#2563EB&lt&#2F6FE0&la&#3F87FF&lr&#4FA3FF&lw&#00D4FF&la&#5FC1FF&lt&#9FEFFF&le&#BFEFFF&lr &#D7F7FF&lJ&#FFFFFF&le&#F2F8FF&lw&#E6F6FF&le&#BFEFFF&ll", "&#005F73&lS&#007F95&lt&#0A9396&la&#1BB3B8&lr&#2EC4D6&lw&#5DEAF0&la&#7FF5F6&lt&#9FFBFA&le&#CFF7FF&lr &#E6FFFF&lJ&#F2F8FF&le&#D7F7FF&lw&#BFEFFF&le&#9FEFFF&ll", "&#B7C3CF&lS&#B0BDCA&lt&#AAB7C5&lo&#A4B1C0&ln&#9EABBB&le&#98A5B6&lc&#92A0B1&lu&#8C9AAC&lt&#8694A7&lt&#808EA2&le&#7A889D&lr", "&#005F73&lS&#006F84&lt&#007F95&lo&#0A9396&lr&#1BB3B8&lm&#2EC4D6&lb&#5DEAF0&lr&#7FF5F6&le&#9FFBFA&la&#CFF7FF&lk&#EFFFFF&le&#FFFFFF&lr \ud83c\udf0a", "&#B8860B&lS&#C4971A&lu&#D0A829&ln&#DCB938&lp&#E8CA47&li&#F3DB66&le&#FFD700&lr&#FFE066&lc&#FFF0B3&le&#FFF8E1&lr", "&#DADADA&lT&#D0D0D0&lh&#C6C6C6&li&#BCBCBC&le&#B2B2B2&lv&#A8A8A8&li&#9E9E9E&ln&#949494&lg &#8B2A2A&lB&#A83232&ll&#C62828&la&#E57373&ld&#D45A5A&le", "&#2F2F2F&lT&#3A3A3Ah&#454545i&#505050&le&#5B5B5B&lv&#666666i&#717171&ln&#7C7C7C&lg&#878787&l &#929292&lB&#9D9D9Dl&#A8A8A8&la&#B3B3B3&ld&#BEBEBE&le&r", "&#B03030&lU&#C83C3C&ll&#E04848&lt&#FC5454&li&#FF6A6A&lm&#FC5454&la&#E04848&lt&#C83C3C&le &#B03030&lS&#C83C3C&lw&#E04848&lo&#FC5454&lr&#FF6A6A&ld", "&#005F73&lW&#007085&la&#0A9396&lv&#1BB3B8&le&#2EC4D6&lc&#5DEAF0&lr&#7FF5F6&la&#9FFBFA&ls&#CFF7FF&lh &#EFFFFF&l\ud83c\udf0a", "&#4E6C79&lW&#65808C&li&#7B95A0&ln&#91AAB5&lt&#A7BFC9&le&#BED3DC&lr &#BED3DC&lB&#A7BFC9&lo&#91AAB5&lo&#7B95A0&lt&#65808C&ls", "&#4A2A12&lW&#532F15&lo&#5C3418&lo&#65391B&ld&#6A4A2A&ls&#74542F&lm&#7E5E34&la&#886839&ln&#92723E&l\u2019&#9C7C43&ls &#A68648&lH&#B0905D&la&#BA9A72&lt&#C4A487&lc&#D2B48C&lh&#DECAA0&le&#EADFB4&lt", "&#7A1E00&lW&#8B0000&lr&#A83232&la&#DC2626&lt&#FF4500&lh", "&#C62828&lW&#DC2626&lr&#F43F5E&la&#FF6B6B&lt&#FFB8B8&lh", "&#272B15&lZ&#32401F&lo&#3B4725&lm&#4F6335&lb&#607942&li&#6D8346&le &#7A8D4A&lH&#87974E&la&#94A452&lt&#9BAA54&lc&#A1AF56&lh&#A9B85E&le&#B4C66A&lt", "&#145A32&lZ&#1E8449&lo&#27AE60&lm&#43C380&lb&#5FD1A0&li&#7CFF6B&le &#98FF87&lH&#A3FF99&la&#B6FFB0&lt&#C9FFC7&lc&#EFFFF0&lh&#D7F7FF&le&#C9FFC7&lt"];
+    const BOLD_RE = /&l/gi;
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      const tt = document.getElementById('toastText');
+      tt.textContent = msg;
+      t.style.display = 'flex';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        t.style.display = 'none';
+      }, 1200);
+    }
+
+    function isPrintableChar(ch) {
+      return !/\s/.test(ch);
+    }
+
+    function stripBold(raw) {
+      return raw.replace(BOLD_RE, "");
+    }
+
+    function makeBolded(raw) {
+      raw = stripBold(raw); // avoid duplicating &l
+      let i = 0;
+      let out = "";
+
+      while (i < raw.length) {
+        // &#RRGGBB
+        if (raw[i] === '&' && raw[i+1] === '#' && i + 7 < raw.length) {
+          const hex = raw.slice(i+2, i+8);
+          if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+            out += raw.slice(i, i+8);
+            i += 8;
+            continue;
+          }
+        }
+
+        // &x
+        if (raw[i] === '&' && i + 1 < raw.length) {
+          out += raw.slice(i, i+2);
+          i += 2;
+          continue;
+        }
+
+        const ch = raw[i];
+        out += isPrintableChar(ch) ? ("&l" + ch) : ch;
+        i += 1;
+      }
+
+      return out;
+    }
+
+    async function writeClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (e) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          return true;
+        } catch (e2) {
+          return false;
+        }
+      }
+    }
+
+    async function copyBold(index) {
+      const text = makeBolded(entries[index]);
+      const ok = await writeClipboard(text);
+      showToast(ok ? "Copied bold" : "Copy failed (clipboard blocked)");
+    }
+
+    async function copyNormal(index) {
+      const text = stripBold(entries[index]);
+      const ok = await writeClipboard(text);
+      showToast(ok ? "Copied normal" : "Copy failed (clipboard blocked)");
+    }
+
+    function applyFilter() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const tbody = document.getElementById('tbody');
+      let shown = 0;
+
+      for (let i = 0; i < tbody.rows.length; i++) {
+        const row = tbody.rows[i];
+        // Match against the preview text and also the underlying raw entry
+        const previewCell = row.querySelector('td.preview');
+        const hay = (previewCell?.innerText || "") + " " + (entries[i] || "");
+        const ok = hay.toLowerCase().includes(q);
+        row.style.display = ok ? "" : "none";
+        if (ok) shown++;
+      }
+
+      document.getElementById('count').textContent = shown;
+    }
+
+    document.getElementById('count').textContent = entries.length;
+  </script>
+</body>
+</html>
