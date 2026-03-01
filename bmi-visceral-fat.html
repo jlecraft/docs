@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI & Visceral Fat Calculator</title>
+    <style>
+        :root {
+            --men-accent:  #2563eb;
+            --men-light:   #eff6ff;
+            --men-border:  #bfdbfe;
+            --women-accent:#db2777;
+            --women-light: #fdf2f8;
+            --women-border:#fbcfe8;
+            --bg:          #f1f5f9;
+            --card:        #ffffff;
+            --text:        #1e293b;
+            --muted:       #64748b;
+            --border:      #e2e8f0;
+            --result-bg:   #f8fafc;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2.5rem 1rem 3rem;
+        }
+
+        /* ── Header ── */
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        header h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+        }
+        header p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* ── Imperial toggle ── */
+        .toggle-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .toggle-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            user-select: none;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .thumb {
+            position: absolute;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 26px;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+        .thumb::before {
+            content: "";
+            position: absolute;
+            width: 18px; height: 18px;
+            left: 4px; top: 4px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.25s;
+        }
+        .switch input:checked + .thumb { background: #6366f1; }
+        .switch input:checked + .thumb::before { transform: translateX(24px); }
+
+        /* ── Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        @media (max-width: 660px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--card);
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 6px 18px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .card-head {
+            padding: 1rem 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .card-head.men    { background: var(--men-light);   color: var(--men-accent);   border-bottom: 2px solid var(--men-border); }
+        .card-head.women  { background: var(--women-light); color: var(--women-accent); border-bottom: 2px solid var(--women-border); }
+
+        .card-body { padding: 1.25rem 1.5rem; }
+
+        /* ── Fields ── */
+        .field { margin-bottom: 0.9rem; }
+        .field:last-of-type { margin-bottom: 0; }
+
+        .field label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            margin-bottom: 0.3rem;
+        }
+        .field input[type="number"] {
+            width: 100%;
+            padding: 0.5rem 0.7rem;
+            border: 1.5px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.97rem;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -moz-appearance: textfield;
+        }
+        .field input[type="number"]::-webkit-inner-spin-button,
+        .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+        .field input[type="number"]:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129,140,248,0.2);
+        }
+
+        .row { display: flex; gap: 0.5rem; }
+        .row .field { flex: 1; margin-bottom: 0; }
+
+        .hidden { display: none !important; }
+
+        /* ── Results ── */
+        .results {
+            background: var(--result-bg);
+            border: 1.5px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1rem 1.2rem;
+            margin-top: 1.1rem;
+            min-height: 4.5rem;
+        }
+        .results-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--muted);
+            margin-bottom: 0.7rem;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .result-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .result-name { font-size: 0.88rem; color: var(--muted); }
+        .result-right { display: flex; align-items: center; gap: 0.45rem; }
+        .result-val { font-size: 1.05rem; font-weight: 700; }
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.18rem 0.5rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        /* BMI badge colours */
+        .b-underweight { background: #dbeafe; color: #1e40af; }
+        .b-normal      { background: #dcfce7; color: #15803d; }
+        .b-overweight  { background: #fef9c3; color: #92400e; }
+        .b-obese1      { background: #fed7aa; color: #9a3412; }
+        .b-obese2      { background: #fecaca; color: #991b1b; }
+        .b-obese3      { background: #fee2e2; color: #7f1d1d; }
+
+        /* VAT badge colours */
+        .b-low      { background: #dcfce7; color: #15803d; }
+        .b-moderate { background: #fef9c3; color: #92400e; }
+        .b-high     { background: #fecaca; color: #991b1b; }
+
+        .placeholder { color: var(--muted); font-size: 0.85rem; text-align: center; padding-top: 0.6rem; }
+
+        /* ── Footer ── */
+        footer {
+            max-width: 860px;
+            margin: 2.5rem auto 0;
+            color: var(--muted);
+            font-size: 0.78rem;
+            line-height: 1.55;
+            text-align: center;
+        }
+        footer strong { color: var(--text); }
+
+        /* ── Save bar ── */
+        .save-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            max-width: 860px;
+            margin: 1.5rem auto 0;
+        }
+        .save-btn {
+            padding: 0.6rem 1.75rem;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            border-radius: 0.6rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .save-btn:hover  { background: #4338ca; }
+        .save-btn:active { transform: scale(0.97); }
+        .save-btn:disabled { background: #a5b4fc; cursor: not-allowed; }
+        .file-label {
+            font-size: 0.82rem;
+            color: var(--muted);
+            font-style: italic;
+        }
+        .toast {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #15803d;
+            background: #dcfce7;
+            border: 1.5px solid #86efac;
+            border-radius: 0.5rem;
+            padding: 0.38rem 0.85rem;
+        }
+        .toast.hidden { display: none; }
+        .toast.toast-error { color: #991b1b; background: #fef2f2; border-color: #fca5a5; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BMI &amp; Visceral Fat Calculator</h1>
+    <p>Estimates Body Mass Index and Visceral Adipose Tissue area (cm²) using the
+       <strong>Samouda et al. (2013)</strong> anthropometric model (VAT&nbsp;=&nbsp;TAAT&nbsp;−&nbsp;SAAT).</p>
+</header>
+
+<div class="toggle-bar">
+    <span class="toggle-label">Metric</span>
+    <label class="switch">
+        <input type="checkbox" id="imperialToggle">
+        <span class="thumb"></span>
+    </label>
+    <span class="toggle-label">Imperial</span>
+</div>
+
+<div class="grid">
+
+    <!-- ═══ MEN ═══ -->
+    <div class="card">
+        <div class="card-head men">Men</div>
+        <div class="card-body">
+
+            <div class="field">
+                <label>Age (years)</label>
+                <input type="number" id="m-age" min="18" max="120" placeholder="e.g. 40">
+            </div>
+
+            <!-- Height metric -->
+            <div class="field metric-field">
+                <label>Height (cm)</label>
+                <input type="number" id="m-height-cm" min="100" max="250" step="0.1" placeholder="e.g. 178">
+            </div>
+            <!-- Height imperial -->
+            <div class="field imperial-field hidden">
+                <label>Height (ft &amp; in)</label>
+                <div class="row">
+                    <div class="field">
+                        <input type="number" id="m-height-ft" min="4" max="8" placeholder="ft">
+                    </div>
+                    <div class="field">
+                        <input type="number" id="m-height-in" min="0" max="11" step="0.5" placeholder="in">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight metric -->
+            <div class="field metric-field">
+                <label>Weight (kg)</label>
+                <input type="number" id="m-weight-kg" min="20" max="350" step="0.1" placeholder="e.g. 82">
+            </div>
+            <!-- Weight imperial -->
+            <div class="field imperial-field hidden">
+                <label>Weight (lbs)</label>
+                <input type="number" id="m-weight-lbs" min="44" max="770" step="0.1" placeholder="e.g. 181">
+            </div>
+
+            <!-- Waist metric -->
+            <div class="field metric-field">
+                <label>Waist Circumference (cm)</label>
+                <input type="number" id="m-waist-cm" min="40" max="200" step="0.1" placeholder="e.g. 92">
+            </div>
+            <!-- Waist imperial -->
+            <div class="field imperial-field hidden">
+                <label>Waist Circumference (in)</label>
+                <input type="number" id="m-waist-in" min="15" max="79" step="0.1" placeholder="e.g. 36">
+            </div>
+
+            <!-- Thigh metric -->
+            <div class="field metric-field">
+                <label>Proximal Thigh Circumference (cm)</label>
+                <input type="number" id="m-thigh-cm" min="20" max="120" step="0.1" placeholder="e.g. 55">
+            </div>
+            <!-- Thigh imperial -->
+            <div class="field imperial-field hidden">
+                <label>Proximal Thigh Circumference (in)</label>
+                <input type="number" id="m-thigh-in" min="8" max="47" step="0.1" placeholder="e.g. 22">
+            </div>
+
+            <div class="results" id="m-results">
+                <p class="placeholder">Enter values above to see results.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ WOMEN ═══ -->
+    <div class="card">
+        <div class="card-head women">Women</div>
+        <div class="card-body">
+
+            <div class="field">
+                <label>Age (years)</label>
+                <input type="number" id="w-age" min="18" max="120" placeholder="e.g. 40">
+            </div>
+
+            <!-- Height metric -->
+            <div class="field metric-field">
+                <label>Height (cm)</label>
+                <input type="number" id="w-height-cm" min="100" max="250" step="0.1" placeholder="e.g. 165">
+            </div>
+            <!-- Height imperial -->
+            <div class="field imperial-field hidden">
+                <label>Height (ft &amp; in)</label>
+                <div class="row">
+                    <div class="field">
+                        <input type="number" id="w-height-ft" min="3" max="8" placeholder="ft">
+                    </div>
+                    <div class="field">
+                        <input type="number" id="w-height-in" min="0" max="11" step="0.5" placeholder="in">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight metric -->
+            <div class="field metric-field">
+                <label>Weight (kg)</label>
+                <input type="number" id="w-weight-kg" min="20" max="350" step="0.1" placeholder="e.g. 65">
+            </div>
+            <!-- Weight imperial -->
+            <div class="field imperial-field hidden">
+                <label>Weight (lbs)</label>
+                <input type="number" id="w-weight-lbs" min="44" max="770" step="0.1" placeholder="e.g. 143">
+            </div>
+
+            <!-- Waist metric -->
+            <div class="field metric-field">
+                <label>Waist Circumference (cm)</label>
+                <input type="number" id="w-waist-cm" min="40" max="200" step="0.1" placeholder="e.g. 78">
+            </div>
+            <!-- Waist imperial -->
+            <div class="field imperial-field hidden">
+                <label>Waist Circumference (in)</label>
+                <input type="number" id="w-waist-in" min="15" max="79" step="0.1" placeholder="e.g. 31">
+            </div>
+
+            <!-- Thigh metric -->
+            <div class="field metric-field">
+                <label>Proximal Thigh Circumference (cm)</label>
+                <input type="number" id="w-thigh-cm" min="20" max="120" step="0.1" placeholder="e.g. 57">
+            </div>
+            <!-- Thigh imperial -->
+            <div class="field imperial-field hidden">
+                <label>Proximal Thigh Circumference (in)</label>
+                <input type="number" id="w-thigh-in" min="8" max="47" step="0.1" placeholder="e.g. 22">
+            </div>
+
+            <div class="results" id="w-results">
+                <p class="placeholder">Enter values above to see results.</p>
+            </div>
+        </div>
+    </div>
+
+</div><!-- .grid -->
+
+<div class="save-bar">
+    <button id="saveBtn" class="save-btn">Save to File</button>
+    <span id="fileLabel" class="file-label"></span>
+    <span id="saveToast" class="toast hidden"></span>
+</div>
+
+<footer>
+    <p>
+        <strong>BMI:</strong> weight(kg) ÷ height(m)².&nbsp;&nbsp;
+        <strong>VAT — Men:</strong> 6&times;WaistC &minus; 4.41&times;ProxThighC + 1.19&times;Age &minus; 213.65.&nbsp;&nbsp;
+        <strong>VAT — Women:</strong> 2.15&times;WaistC &minus; 3.63&times;ProxThighC + 1.46&times;Age + 6.22&times;BMI &minus; 92.713.&nbsp;&nbsp;
+        Circumferences in cm; VAT in cm².
+        Source: Samouda et al., <em>VAT=TAAT−SAAT</em> (2013).
+        For informational purposes only — not a substitute for medical advice.
+    </p>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    const toggle = document.getElementById('imperialToggle');
+
+    // ── Unit conversion on toggle ────────────────────────────────────────────
+    function setVal(id, v, decimals) {
+        if (v !== null && isFinite(v)) {
+            document.getElementById(id).value = v.toFixed(decimals);
+        }
+    }
+
+    function convertValues(sex, toImperial) {
+        if (toImperial) {
+            // Height: cm → ft + in
+            const cm = val(`${sex}-height-cm`);
+            if (cm !== null) {
+                const totalIn = cm / 2.54;
+                const ft = Math.floor(totalIn / 12);
+                setVal(`${sex}-height-ft`, ft, 0);
+                setVal(`${sex}-height-in`, totalIn - ft * 12, 1);
+            }
+            // Weight: kg → lbs
+            const kg = val(`${sex}-weight-kg`);
+            if (kg !== null) setVal(`${sex}-weight-lbs`, kg / 0.453592, 1);
+            // Circumferences: cm → in
+            const waistCm = val(`${sex}-waist-cm`);
+            if (waistCm !== null) setVal(`${sex}-waist-in`, waistCm / 2.54, 1);
+            const thighCm = val(`${sex}-thigh-cm`);
+            if (thighCm !== null) setVal(`${sex}-thigh-in`, thighCm / 2.54, 1);
+        } else {
+            // Height: ft + in → cm
+            const ft = val(`${sex}-height-ft`);
+            if (ft !== null) {
+                const totalIn = ft * 12 + (val(`${sex}-height-in`) ?? 0);
+                setVal(`${sex}-height-cm`, totalIn * 2.54, 1);
+            }
+            // Weight: lbs → kg
+            const lbs = val(`${sex}-weight-lbs`);
+            if (lbs !== null) setVal(`${sex}-weight-kg`, lbs * 0.453592, 1);
+            // Circumferences: in → cm
+            const waistIn = val(`${sex}-waist-in`);
+            if (waistIn !== null) setVal(`${sex}-waist-cm`, waistIn * 2.54, 1);
+            const thighIn = val(`${sex}-thigh-in`);
+            if (thighIn !== null) setVal(`${sex}-thigh-cm`, thighIn * 2.54, 1);
+        }
+    }
+
+    // ── Toggle metric / imperial visibility ──────────────────────────────────
+    toggle.addEventListener('change', () => {
+        const imp = toggle.checked;
+        convertValues('m', imp);
+        convertValues('w', imp);
+        document.querySelectorAll('.metric-field').forEach(el => el.classList.toggle('hidden', imp));
+        document.querySelectorAll('.imperial-field').forEach(el => el.classList.toggle('hidden', !imp));
+        recalc('m');
+        recalc('w');
+    });
+
+    // ── Wire up all inputs ───────────────────────────────────────────────────
+    const mInputs = ['m-age','m-height-cm','m-height-ft','m-height-in',
+                     'm-weight-kg','m-weight-lbs','m-waist-cm','m-waist-in',
+                     'm-thigh-cm','m-thigh-in'];
+    const wInputs = ['w-age','w-height-cm','w-height-ft','w-height-in',
+                     'w-weight-kg','w-weight-lbs','w-waist-cm','w-waist-in',
+                     'w-thigh-cm','w-thigh-in'];
+
+    mInputs.forEach(id => document.getElementById(id).addEventListener('input', () => recalc('m')));
+    wInputs.forEach(id => document.getElementById(id).addEventListener('input', () => recalc('w')));
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function val(id) {
+        const v = parseFloat(document.getElementById(id).value);
+        return isNaN(v) ? null : v;
+    }
+
+    // Returns all field values normalised to metric, plus computed BMI and VAT.
+    // Fields not yet filled are null.
+    function getMetricValues(sex) {
+        const imp = toggle.checked;
+        const age = val(`${sex}-age`);
+        let heightM, weightKg, waistCm, thighCm;
+
+        if (imp) {
+            const ft  = val(`${sex}-height-ft`);
+            const ins = val(`${sex}-height-in`) ?? 0;
+            heightM  = ft !== null ? (ft * 12 + ins) * 0.0254 : null;
+            const lbs = val(`${sex}-weight-lbs`);
+            weightKg = lbs !== null ? lbs * 0.453592 : null;
+            const wi  = val(`${sex}-waist-in`);
+            waistCm  = wi !== null ? wi * 2.54 : null;
+            const ti  = val(`${sex}-thigh-in`);
+            thighCm  = ti !== null ? ti * 2.54 : null;
+        } else {
+            const cm  = val(`${sex}-height-cm`);
+            heightM  = cm !== null ? cm / 100 : null;
+            weightKg = val(`${sex}-weight-kg`);
+            waistCm  = val(`${sex}-waist-cm`);
+            thighCm  = val(`${sex}-thigh-cm`);
+        }
+
+        let bmi = null, vat = null;
+        if (age !== null && heightM !== null && heightM > 0 &&
+            weightKg !== null && waistCm !== null && thighCm !== null) {
+            bmi = weightKg / (heightM * heightM);
+            // Samouda (2013) — circumferences in cm, result in cm²
+            vat = sex === 'm'
+                ? 6 * waistCm - 4.41 * thighCm + 1.19 * age - 213.65
+                : 2.15 * waistCm - 3.63 * thighCm + 1.46 * age + 6.22 * bmi - 92.713;
+            vat = Math.max(0, vat);
+        }
+
+        return {
+            age,
+            heightCm: heightM !== null ? +(heightM * 100).toFixed(1) : null,
+            weightKg, waistCm, thighCm, bmi, vat
+        };
+    }
+
+    function recalc(sex) {
+        const out = document.getElementById(`${sex}-results`);
+        const { bmi, vat } = getMetricValues(sex);
+
+        if (bmi === null) {
+            out.innerHTML = '<p class="placeholder">Enter values above to see results.</p>';
+            return;
+        }
+
+        out.innerHTML = `
+            <div class="results-title">Results</div>
+            <div class="result-row">
+                <span class="result-name">BMI</span>
+                <span class="result-right">
+                    <span class="result-val">${bmi.toFixed(1)}</span>
+                    <span class="badge ${bmiClass(bmi)}">${bmiLabel(bmi)}</span>
+                </span>
+            </div>
+            <div class="result-row">
+                <span class="result-name">Visceral Fat (VAT)</span>
+                <span class="result-right">
+                    <span class="result-val">${vat.toFixed(0)} cm²</span>
+                    <span class="badge ${vatClass(vat)}">${vatLabel(vat)}</span>
+                </span>
+            </div>
+        `;
+    }
+
+    // ── Classification helpers ────────────────────────────────────────────────
+    function bmiClass(b) {
+        if (b < 18.5) return 'b-underweight';
+        if (b < 25)   return 'b-normal';
+        if (b < 30)   return 'b-overweight';
+        if (b < 35)   return 'b-obese1';
+        if (b < 40)   return 'b-obese2';
+        return 'b-obese3';
+    }
+    function bmiLabel(b) {
+        if (b < 18.5) return 'Underweight';
+        if (b < 25)   return 'Normal';
+        if (b < 30)   return 'Overweight';
+        if (b < 35)   return 'Obese I';
+        if (b < 40)   return 'Obese II';
+        return 'Obese III';
+    }
+    function vatClass(v) {
+        if (v < 100) return 'b-low';
+        if (v < 160) return 'b-moderate';
+        return 'b-high';
+    }
+    function vatLabel(v) {
+        if (v < 100) return 'Low Risk';
+        if (v < 160) return 'Moderate Risk';
+        return 'High Risk';
+    }
+
+    // ── File save (File System Access API) ───────────────────────────────────
+    const CSV_HEADER =
+        'Date,Time,' +
+        'M_Age,M_Height_cm,M_Weight_kg,M_Waist_cm,M_Thigh_cm,M_BMI,M_VAT_cm2,' +
+        'W_Age,W_Height_cm,W_Weight_kg,W_Waist_cm,W_Thigh_cm,W_BMI,W_VAT_cm2';
+
+    let fileHandle = null;
+
+    function fmt(v, decimals) { return v !== null ? v.toFixed(decimals) : ''; }
+
+    function showToast(msg, isError) {
+        const toast = document.getElementById('saveToast');
+        toast.textContent = msg;
+        toast.className = 'toast' + (isError ? ' toast-error' : '');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => { toast.className = 'toast hidden'; }, 2800);
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('saveBtn');
+        try {
+            // Pick a file on the first save; reuse the handle on subsequent saves.
+            if (!fileHandle) {
+                fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'bmi-records.csv',
+                    types: [{ description: 'CSV File', accept: { 'text/csv': ['.csv'] } }]
+                });
+                document.getElementById('fileLabel').textContent = fileHandle.name;
+            }
+
+            // Re-request permission if the browser revoked it (e.g. after tab switch).
+            if ((await fileHandle.queryPermission({ mode: 'readwrite' })) !== 'granted') {
+                if ((await fileHandle.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+                    throw new Error('Write permission was denied.');
+                }
+            }
+
+            // Read whatever is already in the file so we can append to it.
+            let content = await (await fileHandle.getFile()).text();
+            if (!content.trim()) content = CSV_HEADER + '\n';
+
+            // Build the new row — values always stored in metric.
+            const now  = new Date();
+            const date = now.toISOString().slice(0, 10);        // YYYY-MM-DD
+            const time = now.toTimeString().slice(0, 8);         // HH:MM:SS
+            const m    = getMetricValues('m');
+            const w    = getMetricValues('w');
+            const row  = [
+                date, time,
+                fmt(m.age, 0), fmt(m.heightCm, 1), fmt(m.weightKg, 1),
+                fmt(m.waistCm, 1), fmt(m.thighCm, 1), fmt(m.bmi, 2), fmt(m.vat, 1),
+                fmt(w.age, 0), fmt(w.heightCm, 1), fmt(w.weightKg, 1),
+                fmt(w.waistCm, 1), fmt(w.thighCm, 1), fmt(w.bmi, 2), fmt(w.vat, 1)
+            ].join(',');
+
+            if (!content.endsWith('\n')) content += '\n';
+            content += row + '\n';
+
+            btn.disabled = true;
+            const writable = await fileHandle.createWritable();
+            await writable.write(content);
+            await writable.close();
+            showToast('Saved successfully!', false);
+
+        } catch (err) {
+            if (err.name === 'AbortError') return; // user cancelled the picker
+            fileHandle = null;
+            document.getElementById('fileLabel').textContent = '';
+            showToast('Error: ' + err.message, true);
+        } finally {
+            btn.disabled = false;
+        }
+    });
+}());
+</script>
+
+</body>
+</html>
